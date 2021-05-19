@@ -16,8 +16,10 @@ jobs:
           passphrase: ${{secrets.SSH_PASSPHRASE}}
 
           script: |
-              cd ..
-              cd var/www/html
+              mkdir cyto_live
+              cd cyto_live
               git clone git@github.com:SammyDeAgent/cytokine-osmium.git
+              cd cytokine-osmium
+              pm2 start hello.js
               echo "Deploy to Digital Ocean Droplet successful."
 
