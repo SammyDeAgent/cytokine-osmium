@@ -18,6 +18,6 @@ jobs:
           script: |
               cd ..
               cd var/www/html
-              git clone https://github.com/SammyDeAgent/cytokine-osmium
+              git clone https://github.com/SammyDeAgent/cytokine-osmium.git
               echo "Deploy to Digital Ocean Droplet successful."
 
