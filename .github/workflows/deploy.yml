@@ -1,21 +1,22 @@
 name: Build & Deploy
 on:
   push:
-    branch: [master]
+    branches: [master]
 
 jobs:
   deploy:
     runs-on: ubuntu-lastest
-      steps:
-        - name: Deploy NodeJS app
-          uses: appleboy/ssh-action@v0.1.2
-          with:
-            host: ${{secrets.SSH_HOSY}}
-            key: ${{secrets.SSH_KEY}}
-            username: ${{secrets.SSH_USERNAME}}
+    steps:
+      - name: Deploy NodeJS app
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOSY}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
 
-            script: |
+          script: |
               cd ..
               cd var/www/html
               git clone git@github.com/SammyDeAgent/cytokine-osmium.git
               echo "Deploy to Digital Ocean Droplet successful."
+
