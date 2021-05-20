@@ -19,6 +19,6 @@ jobs:
               cd cyto_live
               git clone git@github.com:SammyDeAgent/cytokine-osmium.git
               cd cytokine-osmium
-              pm2 start hello.js
+              pm2 start app.js
               echo "Deploy to Digital Ocean Droplet successful."
 
