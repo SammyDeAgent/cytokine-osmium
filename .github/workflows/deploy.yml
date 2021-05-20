@@ -20,6 +20,8 @@ jobs:
               git clone git@github.com:SammyDeAgent/cytokine-osmium.git
               cd cytokine-osmium
               git pull origin master
-              pm2 start app.js
+              pm2 start app
+	      pm2 restart app
+	      pm2 save
               echo "Deploy to Digital Ocean Droplet successful."
 
