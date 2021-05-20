@@ -31,7 +31,7 @@ const helpText = `
   <div>
     <h1>Sammy welcomes you to your Droplet!</h1>
     <img src="/assets/sammytheshark.gif" />
-    <img src="/assets/cyto.png/>
+    <img src="/assets/cyto.png" />
     <h2>Things to do with this script</h2>
     <p>This message is coming to you via a simple NodeJS application that's live on your Droplet! This droplet is all set up with NodeJS, PM2 for process management, and nginx.</p>
     <p>Run all pm2 commands using the nodejs user or a second instance of pm2 will start. The login and password are stored in the <code>NODE_USER*</code> values you see when you call  <code>cat /root/.digitalocean_passwords</code> while logged in over SSH.</p>
