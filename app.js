@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const hostname = 'localhost';
 
-const port = 8080;
+const port = 4200;
 var html;
 
 const server = http.createServer((req, res) => {
