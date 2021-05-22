@@ -5,11 +5,11 @@ const hostname = 'localhost';
 const port = 8080;
 var html;
 
-const server = createServer((req, res) => {
+const server = http.createServer((req, res) => {
 	if(req.url === "/"){
 		res.statusCode = 200;
   		res.setHeader('Content-Type', 'text/html');
-  		html = readFileSync('www/home.html');
+  		html = fs.readFileSync('www/home.html');
   		res.write(html);
   		res.end();
 	}else {
