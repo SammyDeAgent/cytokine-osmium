@@ -1,0 +1,24 @@
+{
+  "name": "fyp-webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SammyDeAgent/cytokine-osmium.git"
+  },
+  "author": "Sammy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SammyDeAgent/cytokine-osmium/issues"
+  },
+  "homepage": "https://github.com/SammyDeAgent/cytokine-osmium#readme"
+}
