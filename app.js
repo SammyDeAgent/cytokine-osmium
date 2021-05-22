@@ -1,5 +1,5 @@
-import { createServer } from 'http';
-import { readFileSync } from 'fs';
+const http = require('http');
+const fs = require('fs');
 const hostname = 'localhost';
 
 const port = 8080;
