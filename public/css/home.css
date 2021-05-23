@@ -18,6 +18,18 @@ html {
     background: #FFFFFF;
 }
 
+.btn{
+    border: solid 1px transparent;
+    padding: 0.5rem;
+    background: rgb(177, 177, 177);
+    transition: border 0.3s;
+    border-radius: 2px;
+}
+
+.btn:hover{
+     border: solid 1px black;
+}
+
 footer {
     border-top: solid 1px grey;
     text-align: center;
