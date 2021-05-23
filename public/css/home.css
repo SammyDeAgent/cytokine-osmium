@@ -1,0 +1,31 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #AAAAAA;
+}
+
+.gear {
+    width: auto;
+    height: 10rem;
+    object-fit: contain;
+}
+
+.card{ 
+    text-align: center;
+    margin: 1rem;
+    padding: 2rem;
+    border: solid 1px gray;
+    border-radius: 2px;
+    background: #FFFFFF;
+}
+
+footer {
+    border-top: solid 1px grey;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5rem;
+    padding-top: 1rem;
+    background: #FFFFFF;
+}
