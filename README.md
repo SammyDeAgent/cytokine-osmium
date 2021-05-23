@@ -1,4 +1,4 @@
-# cytokine-osmium
+# Cytokine Osmium
 University Final Year Project - Web App
 
-Web server: cytokine-osmium.xyz
+Web server: https://cytokine-osmium.xyz
