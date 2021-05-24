@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 4200;
 
 // SQL Connection
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const connection = require('express-myconnection'),
 dbOptions = {
 	host: "localhost",

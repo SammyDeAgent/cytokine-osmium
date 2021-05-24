@@ -1,7 +1,8 @@
 exports.list = function(req, res){
 
   req.getConnection(function(err,connection){   
-      connection.query('SELECT * FROM test',function(err,rows){
+      if (err) throw err;
+      connection.query('SELECT * FROM test;',function(err,rows){
         if(err)
           console.log("Error Selecting : %s ",err );
 
