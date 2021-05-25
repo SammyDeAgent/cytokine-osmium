@@ -1,0 +1,62 @@
+<html>
+<title>Spells</title>
+
+<body>
+  <form action='/' method='get'>
+    <button>Back</button>
+  </form>
+  <p>=== Query Testing ===</p>
+
+  <form action="/spells/create" method="POST">
+    <h2>Create Spells</h2>
+    <table>
+      <tr>
+        <td>Spell Code [6 Chars] </td>
+        <td><input type="text" name="spellCode" required></td>
+      </tr>
+      <tr>
+        <td>Spell Name </td>
+        <td><input type="text" name="spellName" required></td>
+      </tr>
+      <tr>
+        <td>Spell Type </td>
+        <td><input type="text" name="spellType" required></td>
+      </tr>
+      <tr>
+        <td>Spell Desc </td>
+        <td><input type="text" name="spellDesc" required></td>
+      </tr>
+      <tr>
+        <td><button type="submit"">Submit Record</button></td>
+      </tr>
+    </table>
+  </form>
+
+  <h2>Current Spells</h2>
+  <table border=" 1" cellpadding="7" cellspacing="7">
+      <tr>
+        <th width="50px">No</th>
+        <th>Spell Code</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <% if(data.length){ 
+    for(var i = 0;i < data.length;i++) { %>
+      <tr>
+        <td><%=(i+1)%></td>
+        <td><%=data[i].spell_code%></td>
+        <td><%=data[i].spell_name%></td>
+        <td><%=data[i].spell_type%></td>
+        <td><%=data[i].spell_desc%></td>
+      </tr>
+      <% }
+  }else{ %>
+      <tr>
+        <td colspan="5">No records</td>
+      </tr>
+      <% } %>
+    </table>
+</body>
+
+</html>
