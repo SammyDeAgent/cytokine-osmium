@@ -27,6 +27,10 @@
         <td><input type="text" name="spellDesc" required></td>
       </tr>
       <tr>
+        <td>Author </td>
+        <td><input type="text" name="spellAuthor" required></td>
+      </tr>
+      <tr>
         <td><button type="submit"">Submit Record</button></td>
       </tr>
     </table>
@@ -49,11 +53,12 @@
         <td><%=data[i].spell_name%></td>
         <td><%=data[i].spell_type%></td>
         <td><%=data[i].spell_desc%></td>
+        <td><%=data[i].author%></td>
       </tr>
       <% }
   }else{ %>
       <tr>
-        <td colspan="5">No records</td>
+        <td colspan="6">No records</td>
       </tr>
       <% } %>
     </table>
