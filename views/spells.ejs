@@ -1,55 +1,61 @@
 <html>
-<title>Spells</title>
-
+  <head>
+    <title>Spells</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/spells.css"/>
+  </head>
 <body>
+  <div class="card">
+     <div class="card-body">
+
   <form action='/' method='get'>
-    <button>Back</button>
+    <button type="submit" class="btn btn-primary">Back</button>
   </form>
-  <p>=== Query Testing ===</p>
 
   <form action="/spells/create" method="POST">
     <h2>Create Spells</h2>
-    <table>
-      <tr>
-        <td>Spell Code [6 Chars] </td>
-        <td><input type="text" name="spellCode" required></td>
-      </tr>
-      <tr>
-        <td>Spell Name </td>
-        <td><input type="text" name="spellName" required></td>
-      </tr>
-      <tr>
-        <td>Spell Type </td>
-        <td><input type="text" name="spellType" required></td>
-      </tr>
-      <tr>
-        <td>Spell Desc </td>
-        <td><input type="text" name="spellDesc" required></td>
-      </tr>
-      <tr>
-        <td>Author </td>
-        <td><input type="text" name="spellAuthor" required></td>
-      </tr>
-      <tr>
-        <td><button type="submit"">Submit Record</button></td>
-      </tr>
-    </table>
+    <div class="form-group">
+      <label for="spellCode" >Spell Code [6 Chars]</label>
+      <input type="text" class="form-control" id="spellCode" name="spellCode" required>
+    </div>
+    <div class="form-group">
+      <label for="spellName" >Spell Name</label>
+      <input type="text" class="form-control" id="spellName" name="spellName" required>
+    </div>
+    <div class="form-group">
+      <label for="spellType" >Spell Type</label>
+      <input type="text" class="form-control" id="spellType" name="spellType" required>
+    </div>
+    <div class="form-group">
+      <label for="spellDesc" >Spell Description</label>
+      <input type="text" class="form-control" id="spellDesc" name="spellDesc" required>
+    </div>
+    <div class="form-group">
+      <label for="spellAuthor" >Author</label>
+      <input type="text" class="form-control" id="spellAuhtor" name="spellAuthor" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-secondary">Submit Record</button>
+    </div>
   </form>
 
   <h2>Current Spells</h2>
-  <table border=" 1" cellpadding="7" cellspacing="7">
+  <table class="table table-hover">
+    <thead class="thead-dark">
       <tr>
-        <th width="50px">No</th>
+        <th>#</th>
         <th>Spell Code</th>
         <th>Name</th>
         <th>Type</th>
         <th>Description</th>
         <th>Submitted By</th>
       </tr>
+    </thead>
+    <tbody>
       <% if(data.length){ 
     for(var i = 0;i < data.length;i++) { %>
       <tr>
-        <td><%=(i+1)%></td>
+        <th scope="row"><%=(i+1)%></th>
         <td><%=data[i].spell_code%></td>
         <td><%=data[i].spell_name%></td>
         <td><%=data[i].spell_type%></td>
@@ -62,7 +68,11 @@
         <td colspan="6">No records</td>
       </tr>
       <% } %>
+      </tbody>
     </table>
+     </div>
+  </div>
+ 
 </body>
 
 </html>

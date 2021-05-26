@@ -40,9 +40,16 @@ app.get('/default', function(req,res){
 app.get('/query', exspell.list);
 app.post('/spells/create', function(req, res, next){
 	const details = req.body;
-	var sql = "INSERT INTO ex_spell (spell_code, spell_name, spell_type, spell_desc, author) VALUES ('"+details.spellCode+"','"+details.spellName+"','"+details.spellType+"','"+details.spellDesc+"','"+details.spellAuthor+"')";
 	req.getConnection(function(err, connection){
-		connection.query(sql, details, function(err, data){
+		connection.query('INSERT INTO ex_spell (spell_code, spell_name, spell_type, spell_desc, author) VALUES (?, ?, ?, ?, ?)',
+		 [
+			 details.spellCode,
+			 details.spellName,
+			 details.spellType,
+			 details.spellDesc,
+			 details.spellAuthor
+		 ], 
+		 function(err, data){
 			if (err) throw err;
 				console.log("Record inserted successfully.");
 		});
