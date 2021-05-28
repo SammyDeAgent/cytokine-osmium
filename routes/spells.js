@@ -12,3 +12,22 @@ exports.list = function(req, res){
   });
 
 };
+
+exports.create = function(req, res){
+  const details = req.body;
+	req.getConnection(function(err, connection){
+		connection.query('INSERT INTO ex_spell (spell_code, spell_name, spell_type, spell_desc, author) VALUES (?, ?, ?, ?, ?)',
+		 [
+			 details.spellCode,
+			 details.spellName,
+			 details.spellType,
+			 details.spellDesc,
+			 details.spellAuthor
+		 ], 
+		 function(err, data){
+			if (err) throw err;
+				console.log("Record inserted successfully.");
+		});
+	});
+	res.redirect('/query');
+};

@@ -30,7 +30,11 @@ app.set('view engine', 'ejs');
 
 // Servers
 app.get('/', function(req,res){
-	res.sendFile(path.join(__dirname,'www/home.html'));
+	res.sendFile(path.join(__dirname,'www/index.html'));
+});
+
+app.get('/debug', function(req,res){
+	res.sendFile(path.join(__dirname,'www/debug.html'));
 });
 
 app.get('/default', function(req,res){
@@ -38,24 +42,7 @@ app.get('/default', function(req,res){
 });
 
 app.get('/query', exspell.list);
-app.post('/spells/create', function(req, res, next){
-	const details = req.body;
-	req.getConnection(function(err, connection){
-		connection.query('INSERT INTO ex_spell (spell_code, spell_name, spell_type, spell_desc, author) VALUES (?, ?, ?, ?, ?)',
-		 [
-			 details.spellCode,
-			 details.spellName,
-			 details.spellType,
-			 details.spellDesc,
-			 details.spellAuthor
-		 ], 
-		 function(err, data){
-			if (err) throw err;
-				console.log("Record inserted successfully.");
-		});
-	});
-	res.redirect('/query');
-});
+app.post('/spells/create', exspell.create);
 
 app.listen(port);
 
