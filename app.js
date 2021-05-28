@@ -1,11 +1,13 @@
 // Module Imports
 const express = require('express');
+const favicon = require('serve-favicon');
 const path = require('path');
 
 // App initialization
 const app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 const port = process.env.PORT || 4200;
 
 // SQL Connection
