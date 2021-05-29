@@ -1,15 +1,26 @@
 // Module Imports
 const express = require('express');
 const session = require('express-session');
+
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+const client = redis.createClient();
+
 const favicon = require('serve-favicon');
 const path = require('path');
 
-// App initialization
+// App initialization and Session
 const app = express();
 app.use(session({
 	secret: 'cyto osmium',
 	resave: true,
-	saveUninitialized: true
+	saveUninitialized: false,
+	store: new redisStore({
+		host:'localhost',
+		port: 6379,
+		client: client,
+		ttl: 260
+	})
 }));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -60,6 +71,8 @@ app.get('/default', function(req,res){
 app.get('/query', exspell.list);
 app.post('/spells/create', exspell.create);
 
-app.listen(port);
+app.listen(port, function(){
+	console.log('App started on Port '+port);
+});
 
 module.exports = app;
