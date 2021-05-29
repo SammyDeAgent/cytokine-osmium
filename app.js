@@ -34,6 +34,7 @@ app.use(connection(mysql, dbOptions, 'request'));
 
 // Routes
 var exspell = require('./routes/spells');
+var register = require('./routes/auth/register');
 var login = require('./routes/auth/login');
 var logout = require('./routes/auth/logout');
 var index = require('./routes/index');
@@ -46,6 +47,11 @@ app.set('view engine', 'ejs');
 
 // Servers
 app.get('/', index.list);
+
+app.get('/register', function(req, res){
+	res.sendFile(path.join(__dirname,'www/register.html'));
+});
+app.post('/register', register.auth);
 
 app.get('/login', function(req, res){
 	res.sendFile(path.join(__dirname,'www/login.html'));

@@ -1,27 +1,31 @@
-exports.auth = function(req, res){
-    var username = req.body.username;
+const bcrypt = require('bcrypt');
+
+exports.auth = async function(req, res){
+    var email = req.body.email;
 	var password = req.body.password;
-	if(username && password){
+	if(email && password){
 		req.getConnection(function(err,connection){
             if (err) throw err;
-            connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?',
-		        [
-			        username,
-			        password
-		        ], function(err, data, fields){
-			        if(data.length > 0){
-				        req.session.loggedin = true;
-				        req.session.username = username;
-						req.session.email = data[0].email;
-				        res.redirect('/');
-			        }else{
-				        res.send('Incorrect Username and/or Password!');
-			        }
-			    res.end();
-		    });
+            connection.query('SELECT * FROM accounts WHERE email = ?', [email],
+			async function(err, data, fields){
+				if (err) throw err;
+				if(data.length > 0){
+					const comparison = await bcrypt.compare(password, data[0].password);
+					if(comparison){
+						req.session.loggedin = true;
+				        req.session.username = data[0].username;
+ 						req.session.email = data[0].email;
+ 				        res.redirect('/');
+					}else{
+						res.send('Incorrect Email and/or Password!');
+					}
+				}else{
+					res.send('Incorrect Email and/or Password!');
+				}
+			});
         })
 	}else{
-		res.send('Please enter Username and Password!');
+		res.send('Please enter Email and Password!');
 		res.end();
 	}
 };
