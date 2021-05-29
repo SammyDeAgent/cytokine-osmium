@@ -1,10 +1,16 @@
 // Module Imports
 const express = require('express');
+const session = require('express-session');
 const favicon = require('serve-favicon');
 const path = require('path');
 
 // App initialization
 const app = express();
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -23,6 +29,9 @@ app.use(connection(mysql, dbOptions, 'request'));
 
 // Routes
 var exspell = require('./routes/spells');
+var login = require('./routes/auth/login');
+var logout = require('./routes/auth/logout');
+var index = require('./routes/index');
 
 app.use(express.static('public'));
 
@@ -31,9 +40,14 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 // Servers
-app.get('/', function(req,res){
-	res.sendFile(path.join(__dirname,'www/index.html'));
+app.get('/', index.list);
+
+app.get('/login', function(req, res){
+	res.sendFile(path.join(__dirname,'www/login.html'));
 });
+app.post('/login', login.auth);
+app.get('/logout', logout.auth);
+
 
 app.get('/debug', function(req,res){
 	res.sendFile(path.join(__dirname,'www/debug.html'));

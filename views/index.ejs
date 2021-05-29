@@ -62,9 +62,16 @@
                 <p class="card-text">
                     Upcoming team finder web app.
                 </p>
+                <% if(logged == 1) {%>
+                    <p>Hello, <strong><%=user_name%></strong></p>
+                    <form action="/logout" method="GET">
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </form>
+                <%}else{%>
 				<form action="/login" method="GET">
                     <button class="btn btn-primary" type="submit">Login Page</button>
                 </form>
+                <%}%>
             </div>
         </div>
 
