@@ -12,6 +12,7 @@ exports.auth = function(req, res){
 			        if(data.length > 0){
 				        req.session.loggedin = true;
 				        req.session.username = username;
+						req.session.email = data[0].email;
 				        res.redirect('/');
 			        }else{
 				        res.send('Incorrect Username and/or Password!');

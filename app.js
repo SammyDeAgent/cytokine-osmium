@@ -7,7 +7,7 @@ const path = require('path');
 // App initialization
 const app = express();
 app.use(session({
-	secret: 'secret',
+	secret: 'cyto osmium',
 	resave: true,
 	saveUninitialized: true
 }));
