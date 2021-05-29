@@ -2,9 +2,9 @@
 const express = require('express');
 const session = require('express-session');
 
-const redis = require('redis');
-const redisStore = require('connect-redis')(session);
-const client = redis.createClient();
+// const redis = require('redis');
+// const redisStore = require('connect-redis')(session);
+// const client = redis.createClient();
 
 const favicon = require('serve-favicon');
 const path = require('path');
@@ -14,13 +14,7 @@ const app = express();
 app.use(session({
 	secret: 'cyto osmium',
 	resave: true,
-	saveUninitialized: false,
-	store: new redisStore({
-		host:'localhost',
-		port: 6379,
-		client: client,
-		ttl: 260
-	})
+	saveUninitialized: false
 }));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
