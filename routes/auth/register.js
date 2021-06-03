@@ -6,6 +6,7 @@ exports.auth = async function(req, res){
 
     var accid = uuidv4();
     var username = req.body.r_username;
+    var sitename = username;
     var email = req.body.r_email;
     var password = req.body.r_password;
 
@@ -27,7 +28,7 @@ exports.auth = async function(req, res){
                 [
                     accid,
                     username,
-                    username,
+                    sitename,
                     email,
                     encryptedPassword,
                     stamp
