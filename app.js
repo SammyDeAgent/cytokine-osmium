@@ -2,24 +2,10 @@
 const express = require('express');
 const session = require('express-session');
 
-// const redis = require('redis');
-// const redisStore = require('connect-redis')(session);
-// const client = redis.createClient();
+const MySQLStore = require('express-mysql-session')(session);
 
 const favicon = require('serve-favicon');
 const path = require('path');
-
-// App initialization and Session
-const app = express();
-app.use(session({
-	secret: 'cyto osmium',
-	resave: true,
-	saveUninitialized: false
-}));
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-const port = process.env.PORT || 4200;
 
 // SQL Connection
 const mysql = require('mysql2');
@@ -30,7 +16,23 @@ dbOptions = {
 	password: "Sql_osmium576",
 	database: "osmium"
 };
+
+// App initialization and Session
+const app = express();
 app.use(connection(mysql, dbOptions, 'request'));
+const sessionStore = new MySQLStore(dbOptions);
+app.use(session({
+	secret: 'cyto osmium',
+	store: sessionStore,
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+const port = process.env.PORT || 4200;
+
+
 
 // Routes
 var exspell = require('./routes/spells');
@@ -38,6 +40,8 @@ var register = require('./routes/auth/register');
 var login = require('./routes/auth/login');
 var logout = require('./routes/auth/logout');
 var index = require('./routes/index');
+var profile = require('./routes/profile');
+var changeSitename = require('./routes/auth/changeSitename');
 
 app.use(express.static('public'));
 
@@ -49,16 +53,30 @@ app.set('view engine', 'ejs');
 app.get('/', index.list);
 
 app.get('/register', function(req, res){
-	res.sendFile(path.join(__dirname,'www/register.html'));
+	if(!req.session.loggedin){
+		res.sendFile(path.join(__dirname,'www/register.html'));
+	}
+	else{
+		res.write("You cannot register when logged in!");
+		res.end();
+	}
 });
 app.post('/register', register.auth);
 
 app.get('/login', function(req, res){
-	res.sendFile(path.join(__dirname,'www/login.html'));
+	if(!req.session.loggedin){
+		res.sendFile(path.join(__dirname,'www/login.html'));
+	}else{
+		res.write("You are already logged in!");
+		res.end();
+	}
 });
 app.post('/login', login.auth);
 app.get('/logout', logout.auth);
 
+app.get('/profile', profile.list);
+
+app.post('/changeSitename', changeSitename.auth);
 
 app.get('/debug', function(req,res){
 	res.sendFile(path.join(__dirname,'www/debug.html'));

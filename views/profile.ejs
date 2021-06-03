@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=sitename%> ( <%=username%> ) </title>
+
+    <!-- External Files and Plugins -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css"/>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+            <a class="navbar-brand" href="/">
+				<img class="mr-1" src="favicon.ico" width="40" height="40" alt="logo"/>
+				Cytokine Osmium <span class="badge badge-warning">Alpha</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarContent">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+        				<a class="nav-link" href="/">Home</a>
+      				</li>
+					<li class="nav-item">
+        				<a class="nav-link disabled" href="#">Teams</a>
+      				</li>
+					<li class="nav-item">
+        				<a class="nav-link disabled" href="#">Players</a>
+      				</li>
+				</ul>
+				<% if(logged == 1) { %> 
+				<ul class="navbar-nav mr-2">
+					<li class="nav-item">
+        				<a class="nav-link active" href="/profile">Your Profile</a>
+      				</li>
+				</ul>
+
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogout">
+					Logout
+				</button>
+
+				<div class="modal text-dark" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogout" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modalLogoutLabel">Logout</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          							<span aria-hidden="true">&times;</span>
+        						</button>
+							</div>
+							<div class="modal-body">
+								Confirm logout?
+							</div>
+							<div class="modal-footer">
+								<form class="form-inline my-2 my-lg-0 mr-auto" action="/logout" method="GET">
+                        			<button class="btn btn-primary" type="submit">Proceed</button>
+                				</form>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<% }else{ %> 
+				<form class="form-inline my-2 my-lg-0" action="/login" method="GET">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+				<% } %> 
+			</div>
+        </nav>
+
+        <div class="container-fluid mt-3">
+			<div class="row no-gutters">
+				<div class="col-lg-4">
+					<div class="card m-2">
+						<div class="card-body">
+							<h3 class="card-text"><strong><%= sitename %></strong></h3>
+							<p class="card-text">@<%= username %></p>
+							<p class="card-text text-muted">Registered since <%= regstamp %> </p>
+						</div>
+						<div class="card-footer">
+
+							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalNickname">
+								Change Nickname
+							</button>
+
+							<div class="modal text-dark" id="modalNickname" tabindex="-1" role="dialog" aria-labelledby="modalNickname"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="modalNicknameLabel">Change Nickname</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form action="/changeSitename" method="POST">
+												<p>Current nickname: <strong><%= sitename %></strong></p>
+												<div class="form-group">
+               										<input class="form-control" type="text" name="new_sitename" placeholder="New Nickname" required/>
+            									</div>
+												<div class="container">
+													<div class="row">
+														<form class="form-inline my-2 my-lg-0" action="/logout" method="GET">
+															<button class="btn btn-primary" type="submit">Confirm Change</button>
+														</form>
+														<button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+												
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="card m-2">
+						<div class="card-body">
+							<div class="rounded border border-dark p-3">
+								Hello, welcome to my profile!
+							</div>
+						</div>
+					</div>
+					<div class="card m-2">
+						<div class="card-body">
+							No team info available
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+	<!-- Visual Scripts -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+</body>
+</html>
