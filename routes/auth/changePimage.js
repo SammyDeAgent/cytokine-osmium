@@ -1,5 +1,6 @@
 const Jimp = require('jimp');
 const fs = require("fs");
+const path = require("path");
 
 exports.auth = async function(req, res){
 
@@ -22,15 +23,17 @@ exports.auth = async function(req, res){
         res.end();
     }
 
-    pFile.mv(__dirname+'../../../public/user_pic/'+user_pimage_name);
-    var tempFile = __dirname+'../../../public/user_pic/'+user_pimage_name;
+    var destPath = path.join(__dirname,'..','..','public','user_pic/');
+
+    pFile.mv(destPath+user_pimage_name);
+    var tempFile = destPath+user_pimage_name;
 
     // File type consistancy
     if(pFile.mimetype == 'image/png' || pFile.mimetype == 'image/jpeg'){
-        const image = await Jimp.read(__dirname+'../../../public/user_pic/'+user_pimage_name);
+        const image = await Jimp.read(destPath+user_pimage_name);
         await image.resize(300, 300); // Change resolution if needed
         user_pimage_name = req.session.username+'.jpg';
-        await image.writeAsync(__dirname+'../../../public/user_pic/'+user_pimage_name);
+        await image.writeAsync(destPath+user_pimage_name);
         fs.unlinkSync(tempFile);
     }
 
@@ -50,8 +53,10 @@ exports.auth = async function(req, res){
 };
 
 exports.reset = async function(req, res){
+    var destPath = path.join(__dirname,'..','..','public','user_pic/');
+
     // Destory stored profile picture
-    fs.unlinkSync(__dirname+'../../../public/user_pic/'+req.session.username+'.jpg');
+    fs.unlinkSync(destPath+req.session.username+'.jpg');
 
     var defaultPic = 'default.png';
 
