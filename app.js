@@ -1,11 +1,23 @@
 // Module Imports
 const express = require('express');
+// const router = express.Router({strict: true});
 const session = require('express-session');
+
+const busboy = require('connect-busboy');
+// const Busboy = require('busboy');
+// const multer = require('multer');
+// const pFile = multer({dest: __dirname + '/public/user_pic'});
+
+const fs = require('fs');
+
+const fileUpload = require('express-fileupload');
 
 const MySQLStore = require('express-mysql-session')(session);
 
 const favicon = require('serve-favicon');
 const path = require('path');
+
+const slashes = require("connect-slashes"); //Eliminates trailing slashs
 
 // SQL Connection
 const mysql = require('mysql2');
@@ -30,9 +42,9 @@ app.use(session({
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(busboy());
+app.use(fileUpload());
 const port = process.env.PORT || 4200;
-
-
 
 // Routes
 var exspell = require('./routes/spells');
@@ -42,8 +54,12 @@ var logout = require('./routes/auth/logout');
 var index = require('./routes/index');
 var profile = require('./routes/profile');
 var changeSitename = require('./routes/auth/changeSitename');
+var changePimage = require('./routes/auth/changePimage');
+var players = require('./routes/players');
 
 app.use(express.static('public'));
+
+app.use(slashes(false));
 
 // View engine setup
 app.set('views', __dirname + '/views');
@@ -77,6 +93,10 @@ app.get('/logout', logout.auth);
 app.get('/profile', profile.list);
 
 app.post('/changeSitename', changeSitename.auth);
+app.post('/changePimage', changePimage.auth);
+app.post('/resetPimage', changePimage.reset);
+
+app.get('/players', players.list);
 
 app.get('/debug', function(req,res){
 	res.sendFile(path.join(__dirname,'www/debug.html'));

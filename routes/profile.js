@@ -4,6 +4,7 @@ exports.list = function(req, res){
             logged: 1,
             sitename: req.session.sitename,
             username: req.session.username,
+            pimage: req.session.pimage,
             regstamp: req.session.regstamp
         });
     }else{

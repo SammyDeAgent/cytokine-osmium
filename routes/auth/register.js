@@ -7,6 +7,7 @@ exports.auth = async function(req, res){
     var accid = uuidv4();
     var username = req.body.r_username;
     var sitename = username;
+    var pimage = 'default.png';
     var email = req.body.r_email;
     var password = req.body.r_password;
 
@@ -24,11 +25,12 @@ exports.auth = async function(req, res){
             if (err) throw err;
             connection.query('SELECT * FROM accounts;', function(err, data, fields){
                 if (err) throw err;
-                connection.query("INSERT INTO accounts (id, username, sitename, email, password, register_stamp) VALUES (?,?,?,?,?,(STR_TO_DATE(?, '%d/%m/%Y')));",
+                connection.query("INSERT INTO accounts (id, username, sitename, pimage, email, password, register_stamp) VALUES (?,?,?,?,?,?,(STR_TO_DATE(?, '%d/%m/%Y')));",
                 [
                     accid,
                     username,
                     sitename,
+                    pimage,
                     email,
                     encryptedPassword,
                     stamp

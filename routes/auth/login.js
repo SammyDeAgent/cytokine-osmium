@@ -17,6 +17,7 @@ exports.auth = async function(req, res){
 						req.session.loggedin = true;
 				        req.session.username = data[0].username;
 						req.session.sitename = data[0].sitename;
+						req.session.pimage = data[0].pimage;
  						req.session.email = data[0].email;
 						connection.query("SELECT DATE_FORMAT(register_stamp,'%d/%m/%Y') AS register_stamp FROM accounts WHERE email = ?", [email],
 						function(err, data, fields){
