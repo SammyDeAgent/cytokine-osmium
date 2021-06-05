@@ -97,6 +97,7 @@ app.post('/changePimage', changePimage.auth);
 app.post('/resetPimage', changePimage.reset);
 
 app.get('/players', players.list);
+app.get('/player', players.profile);
 
 app.get('/debug', function(req,res){
 	res.sendFile(path.join(__dirname,'www/debug.html'));
@@ -106,6 +107,7 @@ app.get('/default', function(req,res){
 	res.sendFile(path.join(__dirname,'www/default.html'));
 });
 
+// Testing Servers
 app.get('/query', exspell.list);
 app.post('/spells/create', exspell.create);
 

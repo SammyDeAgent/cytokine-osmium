@@ -28,7 +28,7 @@ exports.auth = async function(req, res){
     pFile.mv(destPath+user_pimage_name);
     var tempFile = destPath+user_pimage_name;
 
-    // File type consistancy
+    // File type consistancy: JPG ONLY
     if(pFile.mimetype == 'image/png' || pFile.mimetype == 'image/jpeg'){
         const image = await Jimp.read(destPath+user_pimage_name);
         await image.resize(300, 300); // Change resolution if needed
