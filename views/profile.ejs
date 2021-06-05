@@ -127,12 +127,20 @@
 							<h3 class="card-text"><strong><%= sitename %></strong></h3>
 							<p class="card-text">@<%= username %></p>
 							<p class="card-text text-muted">Registered since <%= regstamp %> </p>
+							<div class="rounded p-2 border border-secondary text-wrap">
+								<%= sText %> 
+							</div>
 						</div>
 						<div class="card-footer">
 
 							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalNickname">
 								Change Nickname
 							</button>
+
+							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalStatus">
+								Change Status
+							</button>
+
 
 							<div class="modal text-dark" id="modalNickname" tabindex="-1" role="dialog" aria-labelledby="modalNickname"
 								aria-hidden="true">
@@ -149,6 +157,34 @@
 												<p>Current nickname: <strong><%= sitename %></strong></p>
 												<div class="form-group">
                										<input class="form-control" type="text" name="new_sitename" placeholder="New Nickname" required/>
+            									</div>
+												<div class="container">
+													<div class="row">
+															<button class="btn btn-primary" type="submit">Confirm Change</button>
+															<button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+												
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal text-dark" id="modalStatus" tabindex="-1" role="dialog" aria-labelledby="modalStatus"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="modalStatusLabel">Change Status</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form action="/changeStext" method="POST">
+												<div class="form-group">
+               										<input class="form-control" type="text" name="new_sText" placeholder="New Status Text" required/>
             									</div>
 												<div class="container">
 													<div class="row">

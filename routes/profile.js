@@ -5,7 +5,8 @@ exports.list = function(req, res){
             sitename: req.session.sitename,
             username: req.session.username,
             pimage: req.session.pimage,
-            regstamp: req.session.regstamp
+            regstamp: req.session.regstamp,
+            sText: req.session.sText
         });
     }else{
         res.send('Please log in first!');

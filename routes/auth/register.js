@@ -11,6 +11,8 @@ exports.auth = async function(req, res){
     var email = req.body.r_email;
     var password = req.body.r_password;
 
+    var defaultStext = "Hello there Osmium.";
+
     let ts = Date.now();
     let date_ob = new Date(ts);
     let date = date_ob.getDate();
@@ -36,7 +38,14 @@ exports.auth = async function(req, res){
                     stamp
                 ], function(err, data, fields){
                     if(err) throw err;
-                    res.redirect('/');
+                    connection.query("INSERT INTO account_status (id, status_text) VALUES (?,?)",
+                    [
+                        accid,
+                        defaultStext
+                    ], function(err, data, fields){
+                        if (err) throw err;
+                        res.redirect('/');
+                    })
                 });
             });
         });

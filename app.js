@@ -54,6 +54,7 @@ var logout = require('./routes/auth/logout');
 var index = require('./routes/index');
 var profile = require('./routes/profile');
 var changeSitename = require('./routes/auth/changeSitename');
+var changeStext = require('./routes/auth/changeStext');
 var changePimage = require('./routes/auth/changePimage');
 var players = require('./routes/players');
 
@@ -93,6 +94,7 @@ app.get('/logout', logout.auth);
 app.get('/profile', profile.list);
 
 app.post('/changeSitename', changeSitename.auth);
+app.post('/changeStext', changeStext.auth);
 app.post('/changePimage', changePimage.auth);
 app.post('/resetPimage', changePimage.reset);
 
