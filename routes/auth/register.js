@@ -49,10 +49,10 @@ exports.auth = async function(req, res){
                         [
                             accid,
                             defaultSiteP
-                        ]), function(err, data, fields){
+                        ], function(err, data, fields){
                             if(err) throw err;
                             res.redirect("/");
-                        }
+                        })
                     })
                 });
             });
