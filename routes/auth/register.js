@@ -12,6 +12,7 @@ exports.auth = async function(req, res){
     var password = req.body.r_password;
 
     var defaultStext = "Hello there Osmium.";
+    var defaultSiteP = "USER";
 
     let ts = Date.now();
     let date_ob = new Date(ts);
@@ -44,7 +45,14 @@ exports.auth = async function(req, res){
                         defaultStext
                     ], function(err, data, fields){
                         if (err) throw err;
-                        res.redirect('/');
+                        connection.query("INSERT INTO account_special (id, site_privilege) VALUES (?,?)",
+                        [
+                            accid,
+                            defaultSiteP
+                        ]), function(err, data, fields){
+                            if(err) throw err;
+                            res.redirect("/");
+                        }
                     })
                 });
             });
