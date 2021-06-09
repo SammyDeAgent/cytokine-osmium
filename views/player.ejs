@@ -80,7 +80,15 @@
 					<div class="card m-2">
 						<img class="card-img-top" src="user_pic/<%= pimage  %> " alt="Profile Picture">
 						<div class="card-body">
-							<h3 class="card-text"><strong><%= sitename %></strong></h3>
+							<h3 class="card-text"><strong><%= sitename %></strong>
+
+								<% if (siteP == 'DEV') { %>
+									<span class="badge badge-success"> DEV </span>
+								<% } else if(siteP == 'VIP') { %>
+									<span class="badge badge-info"> VIP </span>
+								<% } %>
+
+							</h3>
 							<p class="card-text">@<%= username %></p>
 							<p class="card-text text-muted">Registered since <%= regstamp %> </p>
 							<div class="rounded p-2 border border-secondary text-wrap">

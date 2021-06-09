@@ -131,7 +131,14 @@
                        			style="max-width: 64px;">
                        			</div>
                        			<div class="col-11 pt-2 text-right text-lg-left text-truncate">
-                       			<strong><%= data[i].sitename %></strong> ( <%= data[i].username %> ) <br>
+                       			<strong><%= data[i].sitename %></strong> ( <%= data[i].username %> )
+
+									<% if (data[i].site_privilege == 'DEV') { %>
+										<span class="badge badge-pill badge-success"> DEV </span>
+									<% } else if(data[i].site_privilege == 'VIP') { %>
+										<span class="badge badge-pill badge-info"> VIP </span>
+									<% } %>
+									
                        			<p class="text-muted">"<%= data[i].status_text %>"</p>
                        			</div>
                         	</div>

@@ -8,7 +8,7 @@ exports.auth = async function(req, res){
 	if(email && password){
 		req.getConnection(function(err,connection){
             if (err) throw err;
-            connection.query('SELECT * FROM accounts JOIN account_status ON accounts.id = account_status.id WHERE email = ?', [email],
+            connection.query('SELECT * FROM accounts, account_status, account_special WHERE accounts.id = account_status.id AND accounts.id = account_special.id AND email = ?', [email],
 			async function(err, data, fields){
 				if (err) throw err;
 				if(data.length > 0){
@@ -18,6 +18,7 @@ exports.auth = async function(req, res){
 						req.session.acid = data[0].id;
 				        req.session.username = data[0].username;
 						req.session.sitename = data[0].sitename;
+						req.session.siteP = data[0].site_privilege;
 						req.session.pimage = data[0].pimage;
  						req.session.email = data[0].email;
 						req.session.sText = data[0].status_text;
