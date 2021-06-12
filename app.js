@@ -57,6 +57,7 @@ var changeSitename = require('./routes/auth/changeSitename');
 var changeStext = require('./routes/auth/changeStext');
 var changePimage = require('./routes/auth/changePimage');
 var players = require('./routes/players');
+var teams = require('./routes/auth/teams');
 
 app.use(express.static('public'));
 
@@ -100,6 +101,9 @@ app.post('/resetPimage', changePimage.reset);
 
 app.get('/players', players.list);
 app.get('/player', players.profile);
+app.get('/playersSearch', players.search);
+
+app.get('/teams', teams.list);
 
 app.get('/debug', function(req,res){
 	res.sendFile(path.join(__dirname,'www/debug.html'));

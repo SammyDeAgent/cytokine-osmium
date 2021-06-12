@@ -1,6 +1,8 @@
 exports.list = function(req, res){
 
     var logged;
+    var search = 0;
+    var query = null;
 
     if(req.session.loggedin){
         logged = 1;
@@ -14,6 +16,8 @@ exports.list = function(req, res){
             if (err) throw err;
             res.render('players',{
                 logged,
+                search,
+                query,
                 data: rows
             });
         });
@@ -60,3 +64,40 @@ exports.profile = function(req, res){
         });
     });
 };
+
+exports.search = function(req, res){
+
+    var logged;
+    var search = 1;
+    var query = req.query.search;
+
+    if(query.length <= 0) {
+        return res.redirect('/players');
+    }
+
+    var search = '%'+req.query.search+'%';
+
+    if(req.session.loggedin){
+        logged = 1;
+    }else{
+        logged = 0;
+    }   
+
+    req.getConnection(function(err, connection){
+        if (err) throw err;
+        connection.query("SELECT * FROM accounts, account_status, account_special WHERE accounts.id = account_status.id AND account_special.id = accounts.id AND ( username LIKE ? OR sitename LIKE ? );",
+        [
+          search,
+          search  
+        ],
+        function(err, rows){
+            if (err) throw err;
+            res.render('players',{
+                logged,
+                search,
+                query,
+                data: rows
+            });
+        });
+    });
+}
