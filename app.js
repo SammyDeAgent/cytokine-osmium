@@ -47,17 +47,17 @@ app.use(fileUpload());
 const port = process.env.PORT || 4200;
 
 // Routes
-var exspell = require('./routes/spells');
-var register = require('./routes/auth/register');
-var login = require('./routes/auth/login');
-var logout = require('./routes/auth/logout');
-var index = require('./routes/index');
-var profile = require('./routes/profile');
-var changeSitename = require('./routes/auth/changeSitename');
-var changeStext = require('./routes/auth/changeStext');
-var changePimage = require('./routes/auth/changePimage');
-var players = require('./routes/players');
-var teams = require('./routes/auth/teams');
+var exspell			= require('./routes/spells');
+var register		= require('./routes/auth/register');
+var login			= require('./routes/auth/login');
+var logout			= require('./routes/auth/logout');
+var index			= require('./routes/index');
+var profile			= require('./routes/profile');
+var changeSitename	= require('./routes/auth/changeSitename');
+var changeStext		= require('./routes/auth/changeStext');
+var changePimage	= require('./routes/auth/changePimage');
+var players			= require('./routes/players');
+var teams			= require('./routes/auth/teams');
 
 app.use(express.static('public'));
 

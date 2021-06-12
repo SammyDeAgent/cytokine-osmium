@@ -1,13 +1,20 @@
+
+
+
+
 exports.list = function(req, res){
 
     var logged;
+    var authname;
     var search = 0;
     var query = null;
 
     if(req.session.loggedin){
         logged = 1;
+        authname = req.session.username;
     }else{
         logged = 0;
+        authname = null;
     }   
 
     req.getConnection(function(err, connection){
@@ -16,6 +23,7 @@ exports.list = function(req, res){
             if (err) throw err;
             res.render('players',{
                 logged,
+                authname,
                 search,
                 query,
                 data: rows
@@ -27,13 +35,15 @@ exports.list = function(req, res){
 exports.profile = function(req, res){
 
     var logged;
-    var regstamp;
+    var authname
 
     if(req.session.loggedin){
         logged = 1;
+        authname = req.session.username;
     }else{
         logged = 0;
-    }   
+        authname = null;
+    }     
 
     req.getConnection(function(err, connection){
         if (err) throw err;
@@ -48,6 +58,7 @@ exports.profile = function(req, res){
                     ([rows,fields]) => {
                         res.render('player', {
                             logged,
+                            authname,
                             username:   data[0].username,
                             sitename:   data[0].sitename,
                             siteP:      data[0].site_privilege,
@@ -68,6 +79,7 @@ exports.profile = function(req, res){
 exports.search = function(req, res){
 
     var logged;
+    var authname;
     var search = 1;
     var query = req.query.search;
 
@@ -79,8 +91,10 @@ exports.search = function(req, res){
 
     if(req.session.loggedin){
         logged = 1;
+        authname = req.session.username;
     }else{
         logged = 0;
+        authname = null;
     }   
 
     req.getConnection(function(err, connection){
@@ -94,6 +108,7 @@ exports.search = function(req, res){
             if (err) throw err;
             res.render('players',{
                 logged,
+                authname,
                 search,
                 query,
                 data: rows

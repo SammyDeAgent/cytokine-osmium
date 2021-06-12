@@ -157,6 +157,10 @@
 									<% } else if(data[i].site_privilege == 'VIP') { %>
 										<span class="badge badge-pill badge-info"> VIP </span>
 									<% } %>
+
+									<% if (data[i].username == authname) { %>
+										<span class="badge badge-pill badge-primary"> YOU </span>
+									<% } %>
 									
                        			<p class="text-muted">"<%= data[i].status_text %>"</p>
                        			</div>

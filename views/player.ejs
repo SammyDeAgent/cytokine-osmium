@@ -91,6 +91,10 @@
 									<span class="badge badge-info"> VIP </span>
 								<% } %>
 
+								<% if (username == authname) { %>
+									<span class="badge badge-primary"> YOU </span>
+								<% } %>
+
 							</h3>
 							<p class="card-text">@<%= username %></p>
 							<p class="card-text text-muted">Registered since <%= regstamp %> </p>
