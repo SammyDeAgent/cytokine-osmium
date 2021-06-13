@@ -1,3 +1,5 @@
+const path = require("path");
+
 exports.list = function(req, res){
     if(req.session.loggedin){
         res.render('profile',{
@@ -10,6 +12,6 @@ exports.list = function(req, res){
             sText:      req.session.sText
         });
     }else{
-        res.send('Please log in first!');
+        return res.sendFile(path.join(__dirname,"..",'www/error/401.html'));
     }
 };

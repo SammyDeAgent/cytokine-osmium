@@ -1,6 +1,4 @@
-
-
-
+const path = require("path");
 
 exports.list = function(req, res){
 
@@ -69,8 +67,7 @@ exports.profile = function(req, res){
                     }
                 );
             }else{
-                res.send("No such player exists!");
-                res.end();
+                return res.sendFile(path.join(__dirname,"..",'www/error/404.html'));
             }
         });
     });

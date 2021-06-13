@@ -4,6 +4,8 @@ const path = require("path");
 
 exports.auth = async function(req, res){
 
+    const destPath = path.join(__dirname,'..','..','public','user_pic/');
+
 	if(!req.files){
 		res.send("File not found.");
 		return;
@@ -19,11 +21,11 @@ exports.auth = async function(req, res){
     }else if(pFile.mimetype == 'image/jpeg'){
         var user_pimage_name = req.session.username+'.jpeg';
     }else{
-        res.send("Incorrect file format! Please try again.");
-        res.end();
+        pFile.mv(destPath+user_pimage_name);
+        var tempFile = destPath+user_pimage_name;
+        fs.unlinkSync(tempFile);
+        return res.sendFile(path.join(__dirname,"../..",'www/error/415.html'));
     }
-
-    var destPath = path.join(__dirname,'..','..','public','user_pic/');
 
     pFile.mv(destPath+user_pimage_name);
     var tempFile = destPath+user_pimage_name;

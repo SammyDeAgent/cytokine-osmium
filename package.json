@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@mdi/font": "^5.9.55",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "busboy": "^0.3.1",

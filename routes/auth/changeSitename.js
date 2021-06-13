@@ -1,3 +1,5 @@
+const path = require("path");
+
 exports.auth = function(req, res){
 
     var new_sitename = req.body.new_sitename;
@@ -18,12 +20,12 @@ exports.auth = function(req, res){
                         res.redirect('/profile');
                     });
                 }else{
-                    res.send('Fatal error encounter! Please contact the site administrator.')
+                    return res.sendFile(path.join(__dirname,"..",'www/error/500.html'));
                 }
             });
         });
     }else{
-        res.send('Please enter Email and Password!');
+        res.send('Please enter a new site name!');
 		res.end();
     }
     

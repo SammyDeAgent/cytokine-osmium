@@ -1,3 +1,5 @@
+
+
 exports.auth = function(req, res){
 
     var new_sText = req.body.new_sText;
@@ -23,7 +25,7 @@ exports.auth = function(req, res){
             });
         });
     }else{
-        res.send('Please enter Email and Password!');
+        res.send('Please enter a new status!');
 		res.end();
     }
     

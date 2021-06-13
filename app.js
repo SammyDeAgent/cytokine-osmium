@@ -75,8 +75,7 @@ app.get('/register', function(req, res){
 		res.sendFile(path.join(__dirname,'www/register.html'));
 	}
 	else{
-		res.write("You cannot register when logged in!");
-		res.end();
+		return res.sendFile(path.join(__dirname,'www/error/403.html'));
 	}
 });
 app.post('/register', register.auth);
@@ -85,8 +84,7 @@ app.get('/login', function(req, res){
 	if(!req.session.loggedin){
 		res.sendFile(path.join(__dirname,'www/login.html'));
 	}else{
-		res.write("You are already logged in!");
-		res.end();
+		return res.sendFile(path.join(__dirname,'www/error/403.html'));
 	}
 });
 app.post('/login', login.auth);
@@ -116,6 +114,12 @@ app.get('/default', function(req,res){
 // Testing Servers
 app.get('/query', exspell.list);
 app.post('/spells/create', exspell.create);
+
+// Error Handling
+app.get('*', function(req, res, next) {
+  res.status(404);
+  res.sendFile(path.join(__dirname,'www/error/404.html'));
+});
 
 app.listen(port, function(){
 	console.log('App started on Port '+port);
