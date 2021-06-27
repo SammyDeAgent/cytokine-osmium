@@ -34,10 +34,13 @@ const app = express();
 app.use(connection(mysql, dbOptions, 'request'));
 const sessionStore = new MySQLStore(dbOptions);
 app.use(session({
-	secret: 'cyto osmium',
-	store: sessionStore,
-	resave: false,
-	saveUninitialized: false
+	secret:				'cyto osmium',
+	store:				sessionStore,
+	cookie: {
+      					maxAge: 30 * 24 * 60 * 60 * 1000
+    },
+	resave:				false,
+	saveUninitialized:	false
 }));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -47,17 +50,22 @@ app.use(fileUpload());
 const port = process.env.PORT || 4200;
 
 // Routes
-var exspell			= require('./routes/spells');
 var register		= require('./routes/auth/register');
 var login			= require('./routes/auth/login');
 var logout			= require('./routes/auth/logout');
-var index			= require('./routes/index');
-var profile			= require('./routes/profile');
 var changeSitename	= require('./routes/auth/changeSitename');
 var changeStext		= require('./routes/auth/changeStext');
 var changePimage	= require('./routes/auth/changePimage');
-var players			= require('./routes/players');
+
 var teams			= require('./routes/auth/teams');
+
+var players			= require('./routes/players');
+
+var index			= require('./routes/index');
+var profile			= require('./routes/profile');
+
+var exspell			= require('./routes/test/spells');
+var ajaxtest 		= require('./routes/test/ajaxtest');
 
 app.use(express.static('public'));
 
@@ -114,6 +122,9 @@ app.get('/default', function(req,res){
 // Testing Servers
 app.get('/query', exspell.list);
 app.post('/spells/create', exspell.create);
+
+app.get('/ajaxtest',ajaxtest.init);
+app.post('/ajaxtest',ajaxtest.search);
 
 // Error Handling
 app.get('*', function(req, res, next) {

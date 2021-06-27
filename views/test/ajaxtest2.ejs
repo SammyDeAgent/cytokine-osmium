@@ -1,0 +1,8 @@
+
+            <% if (data.length) { %>
+                <%for (var i = 0; i < data.length; i++) { %>
+                    <p><%=data[i].sitename%> (<%=data[i].username%>)</p>
+                <% } %>
+            <% }else{ %>
+                <p>No records available.</p>
+            <% } %>

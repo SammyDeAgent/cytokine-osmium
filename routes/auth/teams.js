@@ -19,7 +19,7 @@ exports.list = function(req, res){
                 res.render('teams',{
                     logged,
                     exception,
-                    rows
+                    data: rows
                 });
             }
         )

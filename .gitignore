@@ -1,2 +1,5 @@
 # ignores the node modules dir since it will be installed in different environment and dependencies
 node_modules/
+
+#ignores dev notes
+osmium_dev_notes/

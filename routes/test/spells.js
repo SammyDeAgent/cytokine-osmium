@@ -6,7 +6,7 @@ exports.list = function(req, res){
         if(err)
           console.log("Error Selecting : %s ",err );
 
-        res.render('spells',{page_title:"Excalibur Spells",data:rows});
+        res.render('test/spells',{page_title:"Excalibur Spells",data:rows});
       });
 
   });
