@@ -27,13 +27,20 @@
         
         <form action="/register" method="POST">
             <div class="form-group">
-                <input class="form-control" type="text" name="r_username" placeholder="Username" required/>
+                <input class="form-control" type="text" name="r_username" placeholder="Username ( Must not contain any special characters and be atleast 8 characters long )" 
+                minlength="8"
+                maxlength="30"
+                pattern="([A-Za-z0-9])\w+"
+                required/>
             </div>
             <div class="form-group">
                 <input class="form-control" type="email" name="r_email" placeholder="Email" required/>
             </div>
             <div class="form-group">
-                <input class="form-control" type="password" name="r_password" placeholder="Password" required/>
+                <input class="form-control" type="password" name="r_password" placeholder="Password ( Must be atleast 8 characters long )" 
+                minlength="8"
+                maxlength="30"
+                required/>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-w">Register</button>
@@ -43,9 +50,5 @@
             <button type="submit" class="btn btn-secondary btn-w">Cancel</button>
         </form>
     </div>
-
-    <script>
-
-    </script>
 </body>
 </html>
