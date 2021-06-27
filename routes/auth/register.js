@@ -11,6 +11,8 @@ exports.auth = async function(req, res){
     var email = req.body.r_email;
     var password = req.body.r_password;
 
+    //Insert phase 2 verification here
+
     var defaultStext = "Hello there Osmium.";
     var defaultSiteP = "USER";
 
