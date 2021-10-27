@@ -27,7 +27,7 @@ exports.auth = async function(req, res){
         return res.sendFile(path.join(__dirname,"../..",'www/error/415.html'));
     }
 
-    pFile.mv(destPath+user_pimage_name);
+    await pFile.mv(destPath+user_pimage_name);
     var tempFile = destPath+user_pimage_name;
 
     // File type consistancy: JPG ONLY

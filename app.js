@@ -75,9 +75,10 @@ app.use(slashes(false));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-// Servers
+// Home page
 app.get('/', index.list);
 
+// Registration page
 app.get('/register', function(req, res){
 	if(!req.session.loggedin){
 		res.sendFile(path.join(__dirname,'www/register.html'));
@@ -88,6 +89,7 @@ app.get('/register', function(req, res){
 });
 app.post('/register', register.auth);
 
+// Account session authentication
 app.get('/login', function(req, res){
 	if(!req.session.loggedin){
 		res.sendFile(path.join(__dirname,'www/login.html'));
@@ -98,23 +100,29 @@ app.get('/login', function(req, res){
 app.post('/login', login.auth);
 app.get('/logout', logout.auth);
 
+// Your own profile page
 app.get('/profile', profile.list);
 
+// Profile settings
 app.post('/changeSitename', changeSitename.auth);
 app.post('/changeStext', changeStext.auth);
 app.post('/changePimage', changePimage.auth);
 app.post('/resetPimage', changePimage.reset);
 
+// Players list and searching
 app.get('/players', players.list);
 app.get('/player', players.profile);
 app.get('/playersSearch', players.search);
 
+// Teams list and searching
 app.get('/teams', teams.list);
 
+// Debug page
 app.get('/debug', function(req,res){
 	res.sendFile(path.join(__dirname,'www/debug.html'));
 });
 
+// Default Digital Ocean page
 app.get('/default', function(req,res){
 	res.sendFile(path.join(__dirname,'www/default.html'));
 });
