@@ -1,8 +1,25 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const {v4 : uuidv4} = require('uuid');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 exports.auth = async function(req, res){
+
+    //Nodemailer testing
+    let testMail = await nodemailer.createTestAccount();
+
+    //SMTP Transport
+    let transporter = nodemailer.createTransport({
+        service:    'gmail',
+        auth: {
+            user: process.env.EMAIL_ID,
+            pass: process.env.PASSWORD
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
 
     var accid = uuidv4();
     var username = req.body.r_username;
@@ -10,6 +27,13 @@ exports.auth = async function(req, res){
     var pimage = 'default.png';
     var email = req.body.r_email;
     var password = req.body.r_password;
+
+    var mailOptions = {
+        from:       '"Isaac" <cytokine.osmium.mailer@gmail.com>',
+        to:         email,
+        subject:    'Hello there friend.',
+        text:       'Thank you for registrating for Osmium Alpha!'
+    };
 
     //Insert phase 2 verification here
 
@@ -52,8 +76,21 @@ exports.auth = async function(req, res){
                             accid,
                             defaultSiteP
                         ], function(err, data, fields){
-                            if(err) throw err;
-                            res.redirect("/");
+                            if (err) throw err;
+                            connection.query("INSERT INTO account_verify (id, verify_status, verify_code) VALUES (?,?,?)",
+                            [
+                                accid,
+                                "PENDING",
+                                "ABCD1234"
+                            ], async function(err, data, fields){
+                                if(err) throw err;
+                                
+                                //Email verifier sender
+                                await transporter.sendMail(mailOptions);
+
+                                //Redirection to login menu or main menu
+                                res.redirect("/");
+                            })
                         })
                     })
                 });

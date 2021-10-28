@@ -7,3 +7,6 @@ osmium_dev_notes/
 #ignore content of team_pic and user_pic
 public/team_pic/
 public/user_pic/
+
+#credential files
+.env
