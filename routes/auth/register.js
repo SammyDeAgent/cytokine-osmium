@@ -6,10 +6,10 @@ require('dotenv').config();
 
 exports.auth = async function(req, res){
 
-    //Nodemailer testing
+    // Nodemailer testing
     let testMail = await nodemailer.createTestAccount();
 
-    //SMTP Transport
+    // SMTP Transport
     let transporter = nodemailer.createTransport({
         service:    'gmail',
         auth: {
@@ -28,14 +28,16 @@ exports.auth = async function(req, res){
     var email = req.body.r_email;
     var password = req.body.r_password;
 
+    var verify_code = codeGen();
+
     var mailOptions = {
-        from:       '"Isaac" <cytokine.osmium.mailer@gmail.com>',
+        from:       '"Cytokine Osmium" <cytokine.osmium.mailer@gmail.com>',
         to:         email,
-        subject:    'Hello there friend.',
-        text:       'Thank you for registrating for Osmium Alpha!'
+        subject:    'Verification Code',
+        text:       'Thank you for registrating for Osmium Alpha! Your verification code is: ' + verify_code
     };
 
-    //Insert phase 2 verification here
+    // Insert phase 2 verification here
 
     var defaultStext = "Hello there Osmium.";
     var defaultSiteP = "USER";
@@ -81,14 +83,18 @@ exports.auth = async function(req, res){
                             [
                                 accid,
                                 "PENDING",
-                                "ABCD1234"
+                                verify_code
                             ], async function(err, data, fields){
                                 if(err) throw err;
                                 
-                                //Email verifier sender
-                                await transporter.sendMail(mailOptions);
-
-                                //Redirection to login menu or main menu
+                                // Email verifier sender
+                                try{
+                                    await transporter.sendMail(mailOptions);
+                                }catch(error){
+                                    throw error;
+                                }
+                                
+                                // Redirection to login menu or main menu
                                 res.redirect("/");
                             })
                         })
@@ -100,4 +106,17 @@ exports.auth = async function(req, res){
         res.send('Please enter the correct credentials!');
 		res.end();
     }
+};
+
+const codeGen = (length = 8) => {
+    // Declare all characters
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    // Pick characers randomly
+    let str = '';
+    for (let i = 0; i < length; i++) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return str;
 };

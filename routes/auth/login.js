@@ -8,12 +8,22 @@ exports.auth = async function(req, res){
 	if(email && password){
 		req.getConnection(function(err,connection){
             if (err) throw err;
-            connection.query('SELECT * FROM accounts, account_status, account_special WHERE accounts.id = account_status.id AND accounts.id = account_special.id AND email = ?', [email],
+            connection.query('SELECT * FROM accounts, account_status, account_special, account_verify WHERE accounts.id = account_status.id AND accounts.id = account_special.id AND accounts.id = account_verify.id AND email = ?', [email],
 			async function(err, data, fields){
 				if (err) throw err;
 				if(data.length > 0){
 					const comparison = await bcrypt.compare(password, data[0].password);
 					if(comparison){
+
+						// Email verification 
+						req.session.verify = data[0].verify_status;
+
+						if(req.session.verify === 'PENDING'){
+							return res.send('Please verify your account with the provided verification code sent to your mail.');
+						}else if(req.session.verify !== 'VERIFIED'){
+							return res.send('500 Server Error!');
+						}
+
 						req.session.loggedin = true;
 						req.session.acid = data[0].id;
 				        req.session.username = data[0].username;
