@@ -6,10 +6,14 @@ exports.list = function(req, res){
     var authname;
     var search = 0;
     var query = null;
+    var verify = req.session.verify;
 
     if(req.session.loggedin){
         logged = 1;
         authname = req.session.username;
+        if(verify !== 'VERIFIED'){
+            return res.render('verify',{logged: 1,user_name:username, e_mail:email});
+        }
     }else{
         logged = 0;
         authname = null;
@@ -33,7 +37,8 @@ exports.list = function(req, res){
 exports.profile = function(req, res){
 
     var logged;
-    var authname
+    var authname;
+    var verify = req.session.verify;
 
     if(req.session.loggedin){
         logged = 1;
