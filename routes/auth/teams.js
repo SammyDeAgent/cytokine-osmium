@@ -2,9 +2,13 @@ exports.list = function(req, res){
 
     var logged;
     var exception = 0;
+    var verify = req.session.verify
 
     if(req.session.loggedin){
         logged = 1;
+        if(verify !== 'VERIFIED'){
+            return res.render('verify',{logged: 1,user_name:username, e_mail:email});
+        }
     }else{
         logged = 0;
     }   

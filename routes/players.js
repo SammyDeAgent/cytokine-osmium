@@ -38,6 +38,9 @@ exports.profile = function(req, res){
     if(req.session.loggedin){
         logged = 1;
         authname = req.session.username;
+        if(verify !== 'VERIFIED'){
+            return res.render('verify',{logged: 1,user_name:username, e_mail:email});
+        }
     }else{
         logged = 0;
         authname = null;

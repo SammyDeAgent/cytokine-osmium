@@ -18,12 +18,6 @@ exports.auth = async function(req, res){
 						// Email verification 
 						req.session.verify = data[0].verify_status;
 
-						if(req.session.verify === 'PENDING'){
-							return res.send('Please verify your account with the provided verification code sent to your mail.');
-						}else if(req.session.verify !== 'VERIFIED'){
-							return res.send('500 Server Error!');
-						}
-
 						req.session.loggedin = true;
 						req.session.acid = data[0].id;
 				        req.session.username = data[0].username;
@@ -37,7 +31,7 @@ exports.auth = async function(req, res){
 							if (err) throw err;
 							req.session.regstamp = data[0].register_stamp;
 							
- 				        	res.redirect('/');
+							res.redirect('/');
 						})
 					}else{
 						res.send('Incorrect Email and/or Password!');

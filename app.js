@@ -51,6 +51,7 @@ const port = process.env.PORT || 4200;
 
 // Routes
 var register		= require('./routes/auth/register');
+var verifydata		= require('./routes/auth/verifydata');
 var login			= require('./routes/auth/login');
 var logout			= require('./routes/auth/logout');
 var changeSitename	= require('./routes/auth/changeSitename');
@@ -88,6 +89,9 @@ app.get('/register', function(req, res){
 	}
 });
 app.post('/register', register.auth);
+
+// Email verification
+app.post('/verifydata', verifydata.auth);
 
 // Account session authentication
 app.get('/login', function(req, res){

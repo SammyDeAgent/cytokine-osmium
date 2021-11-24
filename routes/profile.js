@@ -1,7 +1,13 @@
 const path = require("path");
 
 exports.list = function(req, res){
+
+    var verify = req.session.verify;
+
     if(req.session.loggedin){
+        if(verify !== 'VERIFIED'){
+             return res.render('verify',{logged: 1,user_name:username, e_mail:email});
+        }
         res.render('profile',{
             logged: 1,
             sitename:   req.session.sitename,
