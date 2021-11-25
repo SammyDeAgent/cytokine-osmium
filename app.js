@@ -120,6 +120,8 @@ app.get('/playersSearch', players.search);
 
 // Teams list and searching
 app.get('/teams', teams.list);
+app.get('/team', teams.profile);
+app.post('/createTeam', teams.create);
 
 // Debug page
 app.get('/debug', function(req,res){
