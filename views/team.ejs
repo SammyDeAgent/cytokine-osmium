@@ -1,110 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=name%> ( <%=code%> ) </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><%=name%> ( <%=code%> ) </title>
 
-    <!-- External Files and Plugins -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css"/>
+	<!-- External Files and Plugins -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+	</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/index.css" />
+	<link rel="stylesheet" href="css/table.css" />
 
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
-            <a class="navbar-brand" href="/">
-				<img class="mr-1" src="favicon.ico" width="40" height="40" alt="logo"/>
-				Cytokine Osmium <span class="badge badge-warning">Alpha</span>
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+		<a class="navbar-brand" href="/">
+			<img class="mr-1" src="favicon.ico" width="40" height="40" alt="logo" />
+			Cytokine Osmium <span class="badge badge-warning">Beta</span>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+			aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarContent">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" href="/">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/teams">Teams</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/players">Players</a>
+				</li>
+			</ul>
+			<% if(logged == 1) { %>
+			<ul class="navbar-nav mr-2">
+				<li class="nav-item">
+					<a class="nav-link" href="/profile">Your Profile</a>
+				</li>
+			</ul>
+
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogout">
+				Logout
 			</button>
 
-			<div class="collapse navbar-collapse" id="navbarContent">
-				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item">
-        				<a class="nav-link" href="/">Home</a>
-      				</li>
-					<li class="nav-item">
-        				<a class="nav-link" href="/teams">Teams</a>
-      				</li>
-					<li class="nav-item">
-        				<a class="nav-link" href="/players">Players</a>
-      				</li>
-				</ul>
-				<% if(logged == 1) { %> 
-				<ul class="navbar-nav mr-2">
-					<li class="nav-item">
-        				<a class="nav-link" href="/profile">Your Profile</a>
-      				</li>
-				</ul>
-
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogout">
-					Logout
-				</button>
-
-				<div class="modal text-dark" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogout" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="modalLogoutLabel">Logout</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          							<span aria-hidden="true">&times;</span>
-        						</button>
-							</div>
-							<div class="modal-body">
-								Confirm logout?
-							</div>
-							<div class="modal-footer">
-								<form class="form-inline my-2 my-lg-0 mr-auto" action="/logout" method="GET">
-                        			<button class="btn btn-primary" type="submit">Proceed</button>
-                				</form>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							</div>
+			<div class="modal text-dark" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogout"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalLogoutLabel">Logout</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Confirm logout?
+						</div>
+						<div class="modal-footer">
+							<form class="form-inline my-2 my-lg-0 mr-auto" action="/logout" method="GET">
+								<button class="btn btn-primary" type="submit">Proceed</button>
+							</form>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
-
-				<% }else{ %> 
-				<form class="form-inline my-2 my-lg-0 mr-2" action="/register" method="GET">
-                    <button class="btn btn-success type="submit">Register</button>
-                </form>
-				<form class="form-inline my-2 my-lg-0" action="/login" method="GET">
-                    <button class="btn btn-primary" type="submit">Login</button>
-                </form>
-				<% } %> 
 			</div>
-        </nav>
 
-        <div class="container-fluid mt-3">
-			<div class="row no-gutters">
-				<div class="col-lg-3">
-					<div class="card m-2">
-						<img class="card-img-top" src="team_pic/<%= pimage  %>" alt="Profile Picture">
-						<div class="card-body">
-							<h3 class="card-text"><strong><%= name %></strong>
-				    		</h3>
-							<p class="card-text">@<%= code %></p>
-							<p class="card-text text-muted">Registered since <%= regstamp %> </p>
-							<div class="rounded p-2 border border-secondary text-wrap">
-								<%= desc %> 
-							</div>
-						</div>
-					</div>
-				</div>
-                <div>
-                    <% for(x in teammates){ %>
-                        <p><%=teammates[x]%></p>
-                    <% } %>
-                </div>
-			</div>
+			<% }else{ %>
+			<form class="form-inline my-2 my-lg-0 mr-2" action="/register" method="GET">
+				<button class="btn btn-success type=" submit">Register</button>
+			</form>
+			<form class="form-inline my-2 my-lg-0" action="/login" method="GET">
+				<button class="btn btn-primary" type="submit">Login</button>
+			</form>
+			<% } %>
 		</div>
+	</nav>
 
+	<div class="container-fluid mt-3">
+		<div class="row no-gutters">
+			<div class="col-lg-3">
+				<div class="card m-2">
+					<img class="card-img-top" src="team_pic/<%= pimage  %>" alt="Profile Picture">
+					<div class="card-body">
+						<h3 class="card-text"><strong><%= name %></strong>
+						</h3>
+						<p class="card-text">@<%= code %></p>
+						<p class="card-text text-muted">Registered since <%= regstamp %> </p>
+						<div class="rounded p-2 border border-secondary text-wrap">
+							<%= desc %>
+						</div>
+					</div>
+					<% if(joined == 0 && logged) { %> 
+							<div class="card-footer">
+							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalJoinTeam">
+								Join Team
+							</button>
+							</div>
+					<% } %>
+					<% if(joined == 1 && leader != 1) { %>
+							<div class="card-footer">
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveTeam">
+								Leave Team
+							</button>
+							</div>
+					<% } %>
+				</div>
+			</div>
+
+			<div class="modal text-dark" id="modalJoinTeam" tabindex="-1" role="dialog" aria-labelledby="modalJoinTeam"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="modalJoinTeamLabel">Join Team</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form action="/joinTeam" method="POST">
+												<p>Please enter Team's Invitational Code</p>
+												<div class="form-group">
+               										<input class="form-control" type="text" name="invCode" placeholder="Invitational Code" required/>
+            									</div>
+												<input type="hidden" name="teamCode" value="<%= code %>">
+												<div class="container">
+													<div class="row">
+															<button class="btn btn-primary" type="submit">Join</button>
+															<button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+												
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+				
+				<div class="modal text-dark" id="modalLeaveTeam" tabindex="-1" role="dialog" aria-labelledby="modalLeaveTeam"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="modalLeaveTeamLabel">Leave Team</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form action="/leaveTeam" method="POST">
+												<p>Confirm to leave team?</p>
+												
+												<input type="hidden" name="teamCode" value="<%= code %>">
+												<div class="container">
+													<div class="row">
+															<button class="btn btn-danger" type="submit">Confirm</button>
+															<button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+												
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+			<div class="col-lg-9">
+
+				<% if(leader == 1) {%> 
+					<div class="row-lg-9">
+						<div class="card m-2">
+							<div class="card-body">
+								<h2>Team Control Panel</h2>
+								<hr class="bg-muted"">
+								<p>Invitational Code <span class="badge badge-primary"><%= invCode %></span></p>
+							</div>
+							<div class="card-footer">
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDisbandTeam">
+									Disband Team
+								</button>
+
+								<div class="modal text-dark" id="modalDisbandTeam" tabindex="-1" role="dialog" aria-labelledby="modalDisbandTeam"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="modalDisbandTeamLabel">Disband Team</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form action="/disbandTeam" method="POST">
+												<p class="text-danger">Alert! Disbanding the team means killing all the connections of the team. Are you sure?</p>
+												
+												<input type="hidden" name="teamCode" value="<%= code %>">
+												<div class="container">
+													<div class="row">
+															<button class="btn btn-danger" type="submit">Confirm</button>
+															<button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+												
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							</div>
+						</div>
+					</div>
+				<% } %> 
+
+				<div class="row-lg-9">
+					<div class="card m-2">
+					<div class="card-body">
+						<h2 class="mr-auto">Team Players</h2>
+
+						<hr class="bg-muted"">
+                <div class=" d-flex justify-content-center flex-column flex-wrap">
+						<% if(teammates.length){
+                    for(var i = 0;i < teammates.length;i++) { %>
+
+						<a class="text-dark" href="/player?username=<%=teammates[i].username%>" style="text-decoration:none">
+							<div class="row rounded m-0 p-2 no-gutters table-hover">
+								<div class="col-1">
+									<img class="rounded-circle shadow" src="/user_pic/<%= teammates[i].pimage %>"
+										alt="<%= teammates[i].username %> profile pic" style="max-width: 64px;">
+								</div>
+								<div class="col-11 pt-2 text-right text-lg-left text-truncate">
+						
+								<i class="fas fa-check-square" style="color:goldenrod"
+								data-toggle="tooltip"
+        						data-placement="top" title="Verified">
+								</i>
+
+									<strong><%= teammates[i].sitename %></strong> ( <%= teammates[i].username %> )
+
+									<% if (teammates[i].username == teamLeader) { %>
+									<span class="badge badge-pill badge-warning"> Team Leader </span>
+									<% } %>
+
+									<% if (teammates[i].site_privilege == 'DEV') { %>
+									<span class="badge badge-pill badge-success"> DEV </span>
+									<% } else if(teammates[i].site_privilege == 'VIP') { %>
+									<span class="badge badge-pill badge-info"> VIP </span>
+									<% } %>
+
+									<% if (teammates[i].username == authname) { %>
+									<span class="badge badge-pill badge-primary"> YOU </span>
+									<% } %>
+
+									<p class="text-muted"><%= teammates[i].status_text %></p>
+
+								</div>
+							</div>
+						</a>
+
+						<% }
+                }else{ %>
+						<p>No records available.</p>
+						<% } %>
+					</div>
+				</div>
+				</div>
 		
+
+
+		</div>
+	</div>
+	</div>
+
+
 	<!-- Visual Scripts -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+		integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
+	</script>
+	<script src="https://kit.fontawesome.com/c7e18d8ebc.js" crossorigin="anonymous"></script>
+	<script>
+		$(function(){
+  			$('[data-toggle="tooltip"]').tooltip();
+		});
+	</script>
 </body>
+
 </html>

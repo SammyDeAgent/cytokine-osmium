@@ -58,8 +58,7 @@ var changeSitename	= require('./routes/auth/changeSitename');
 var changeStext		= require('./routes/auth/changeStext');
 var changePimage	= require('./routes/auth/changePimage');
 
-var teams			= require('./routes/auth/teams');
-
+var teams			= require('./routes/teams');
 var players			= require('./routes/players');
 
 var index			= require('./routes/index');
@@ -122,6 +121,13 @@ app.get('/playersSearch', players.search);
 app.get('/teams', teams.list);
 app.get('/team', teams.profile);
 app.post('/createTeam', teams.create);
+
+// Team join and leave
+app.post('/joinTeam', teams.joining);
+app.post('/leaveTeam', teams.leaving);
+
+// Team Profile Settings
+app.post('/disbandTeam', teams.disbanding);
 
 // Debug page
 app.get('/debug', function(req,res){

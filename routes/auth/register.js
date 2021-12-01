@@ -34,7 +34,7 @@ exports.auth = async function(req, res){
         from:       '"Cytokine Osmium" <cytokine.osmium.mailer@gmail.com>',
         to:         email,
         subject:    'Verification Code',
-        text:       'Thank you for registrating for Osmium Alpha! Your verification code is: ' + verify_code
+        text:       'Thank you for registrating for Osmium Beta! Your verification code is: ' + verify_code
     };
 
     // Insert phase 2 verification here
