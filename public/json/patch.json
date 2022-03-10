@@ -1,0 +1,54 @@
+{
+  "live_version": "b-1.0.0",
+  "notes": [
+    {
+      "version": "b-1.1.0",
+      "date": "10th March 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [
+          "Added patch notes patch, future and past notes are shown there"
+        ],
+        "updates": [
+          "Added customization of team profile and description",
+          "Player profile now redirects to their profile page",
+          "Redirect registration to login prompt"
+        ],
+        "upcoming": [
+          "Improve overall UI design",
+          "Additional team controls eg. Kicks and Invites",
+          "Team searching and filtering"
+        ],
+        "issues": ["User rating and compliments in player's profile"]
+      }
+    },
+    {
+      "version": "b-1.0.0",
+      "date": "2nd December 2021",
+      "author": "Sammy",
+      "patch": {
+        "addition": [
+          "Added the ability to create teams",
+          "Team Creation includes joining and leaving",
+          "Team leaders can invite players via an invitation code",
+          "Team leaders can also be able to disband teams",
+          "Reinforced registration with Email Verification with verification code"
+        ],
+        "updates": [
+          "Added badges for team leaders in team profile",
+          "Added badges for verified players",
+          "Added update log to index page",
+          "Synchronized teams list in player's profile"
+        ],
+        "upcoming": [
+          "Redirect registration to login prompt",
+          "Improve overall UI design",
+          "Customizable team profile",
+          "Additional team controls eg. Kicks and Invites",
+          "Team searching and filtering"
+        ],
+        "issues": ["User rating and compliments in player's profile"]
+      }
+    }
+  ]
+}

@@ -1,8 +1,9 @@
-<html prefix="og: http://ogp.me/ns#" lang ="en-US ">
+<html prefix="og: http://ogp.me/ns#" lang="en-US ">
+
 <head>
 
-    <title>Cytokine Osmium</title>
-	<link rel="shortcut icon"  href="favicon.ico">
+	<title>Cytokine Osmium</title>
+	<link rel="shortcut icon" href="favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="image" content="" />
@@ -18,10 +19,10 @@
 	<meta name="twitter:description" content="" />
 
 	<meta property="og:image:width" content="381" />
-    <meta property="og:image:height" content="200" />
+	<meta property="og:image:height" content="200" />
 	<meta property="og:image" content="" />
 	<meta name="twitter:image" content="" />
-	
+
 	<meta name="og:url" content="" />
 	<meta name="theme-color" content="#85ff00">
 
@@ -32,170 +33,106 @@
 	<meta http-equiv="content-type" content="text/html;UTF-8">
 	<meta http-equiv="content-language" content="en">
 	<meta name="og:locale" content="en_US" />
-	<meta charset = "utf-8">
+	<meta charset="utf-8">
 
 	<!-- Schema.org for Google -->
 	<meta itemprop="name" content="Cytokine Osmium">
 	<meta itemprop="description" content="" />
-    <meta itemprop="image" content="" />
+	<meta itemprop="image" content="" />
 
-    <!--    Custom Font Here    -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">  -->
+	<!--    Custom Font Here    -->
+	<!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">  -->
 
-    <!-- External Files and Plugins -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css"/>
+	<!-- External Files and Plugins -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/index.css" />
 
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
-            <a class="navbar-brand" href="/">
-				<img class="mr-1" src="favicon.ico" width="40" height="40" alt="logo"/>
-				Cytokine Osmium <span class="badge badge-warning">Beta</span>
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+</head>
 
-			<div class="collapse navbar-collapse" id="navbarContent">
-				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item">
-        				<a class="nav-link active" href="/">Home</a>
-      				</li>
-					<li class="nav-item">
-        				<a class="nav-link" href="/teams">Teams</a>
-      				</li>
-					<li class="nav-item">
-        				<a class="nav-link" href="/players">Players</a>
-      				</li>
-				</ul>
-				<% if(logged == 1) { %> 
-				<ul class="navbar-nav mr-2">
-					<li class="nav-item">
-        				<a class="nav-link" href="/profile">Your Profile</a>
-      				</li>
-				</ul>
-				
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogout">
-					Logout
-				</button>
+<body>
+	<%- include('component/navbar',{selected: 'home'}) %>
 
-				<div class="modal text-dark" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogout" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="modalLogoutLabel">Logout</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          							<span aria-hidden="true">&times;</span>
-        						</button>
-							</div>
-							<div class="modal-body">
-								Confirm logout?
-							</div>
-							<div class="modal-footer">
-								<form class="form-inline my-2 my-lg-0 mr-auto" action="/logout" method="GET">
-                        			<button class="btn btn-primary" type="submit">Proceed</button>
-                				</form>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<% }else{ %> 
-				<form class="form-inline my-2 my-lg-0 mr-2" action="/register" method="GET">
-                    <button class="btn btn-success type="submit">Register</button>
-                </form>
-				<form class="form-inline my-2 my-lg-0" action="/login" method="GET">
-                    <button class="btn btn-primary type="submit">Login</button>
-                </form>
-				<% } %> 
-			</div>
-        </nav>
-        
-		<div class="d-flex row no-gutters">
+	<div class="d-flex row no-gutters">
 
 		<div class="col-lg-8">
 			<div class="card m-3">
-            <div class="card-body">
-                <h3 class="card-title">Welcome to Osmium!</h3>
-                <p class="card-text">
-                    Upcoming team finder web app.
-                </p>
-                <% if(logged == 1) {%>
-                    <p>Hello, <strong><%=user_name%></strong> ( <%=e_mail%> ) </p>
+				<div class="card-body">
+					<h3 class="card-title">Welcome to Osmium!</h3>
+					<p class="card-text">
+						Upcoming team finder web app.
+					</p>
+					<% if(logged == 1) {%>
+					<p>Hello, <strong><%=user_name%></strong> ( <%=e_mail%> ) </p>
 					<p>Your account has been verified!</p>
-                <% } %> 
-            </div>
-        </div>
-
-		<div class="card m-3">
-			<img class="card-img-top" src="img/cyto_banner.png">
-			<div class="card-body">
-				<h4 class="card-title">Site under construction</h4>
-				<p class='card-text'>
-					Stay tuned for more functionalities!<br>
-					Developed by <a href="https://github.com/SammyDeAgent" target="_blank">Sammy</a>
-				</p>
-				<form action="/debug" method="GET">
-                    <button class="btn btn-secondary" type="submit">Debug Page</button>
-                </form>
+					<% } %>
+				</div>
 			</div>
-		</div>
+
+			<div class="card m-3">
+				<img class="card-img-top" src="img/cyto_banner.png">
+				<div class="card-body">
+					<h4 class="card-title">Site under construction</h4>
+					<p class='card-text'>
+						Stay tuned for more functionalities!<br>
+						Developed by <a href="https://github.com/SammyDeAgent" target="_blank">Sammy</a>
+					</p>
+					<form action="/debug" method="GET">
+						<button class="btn btn-secondary" type="submit">Debug Page</button>
+					</form>
+				</div>
+			</div>
 
 		</div>
 
 		<div class="col-lg-4">
 			<div class="card mt-3 mb-3 mr-3" style="overflow:scroll; max-height: 645px;">
 				<div class="card-body">
-					<h4 class="card-title">Update Logs - <strong>Beta v1.0.0</strong></h4>
-					<p>[2th December 2021]</p>
+					<h4 class="card-title">Update Logs - <strong>Beta <%= patch.version %></strong></h4>
+					<p>[<%= patch.date %>] - <%= patch.author %></p>
+					<a href="/patch" class="btn btn-block btn-info">Go to Update Page</a>
 					<hr class="bg-muted">
 					<div class="alert alert-warning" role="alert">
-  						<strong>Heads up!</strong> Beta testing is live!
+						<strong>Heads up!</strong> Beta testing is live!
 					</div>
 					<ul class="list-group">
-						<h3>New Additions</h3>
-						<li class="list-group-item">Added the ability to create teams</li>
-						<li class="list-group-item">Team Creation includes joining and leaving</li>
-						<li class="list-group-item">Team leaders can invite players via an invitation code</li>
-						<li class="list-group-item">Team leaders can also be able to disband teams</li>
-						<li class="list-group-item">Reinforced registration with Email Verification with verification code</li>
-						<h3 class="mt-2">Misc Updates</h3>
-						<li class="list-group-item">Added badges for team leaders in team profile</li>
-						<li class="list-group-item">Added badges for verified players</li>
-						<li class="list-group-item">Added update log to index page</li>
-						<li class="list-group-item">Synchronized teams list in player's profile</li>
-						<h3 class="mt-2">Upcomming Patches</h3>
-						<li class="list-group-item">Redirect registration to login prompt</li>
-						<li class="list-group-item">Improve overall UI design</li>
-						<li class="list-group-item">Customizable team profile</li>
-						<li class="list-group-item">Additional team controls eg. Kicks and Invites</li>
-						<li class="list-group-item">Team searching and filtering</li>
-						<h3 class="mt-2">Incomplete Functions</h3>
-						<li class="list-group-item">User rating and compliments in player's profile</li>
+						<h3> New Additions </h3>
+						<% for(let j = 0; j < patch.patch.addition.length; j++) { %>
+						<li class="list-group-item "> <%= patch.patch.addition[j] %> </li>
+						<% } %>
+
+						<h3 class="mt-2"> Misc Updates </h3>
+						<% for(let k = 0; k < patch.patch.updates.length; k++) { %>
+						<li class="list-group-item "> <%= patch.patch.updates[k] %> </li>
+						<% } %>
+
+						<h3 class="mt-2"> Upcoming Patches </h3>
+						<% for(let l = 0; l < patch.patch.upcoming.length; l++) { %>
+						<li class="list-group-item "> <%= patch.patch.upcoming[l] %> </li>
+						<% } %>
+
+						<h3 class="mt-2"> Incomplete and Issues </h3>
+						<% for(let m = 0; m < patch.patch.issues.length; m++) { %>
+						<li class="list-group-item "> <%= patch.patch.issues[m] %> </li>
+						<% } %>
 					</ul>
 				</div>
 			</div>
 		</div>
-		</div>
-        
+	</div>
 
-		<footer class="text-center text-lg-start bg-dark text-muted">
-			<section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-    			<div class="container text-center text-md-start">
-      				<div class="row">
-        				<div class="col-md-3 col-lg-4 col-xl-3 mx-auto">
-							 <a href="https://www.digitalocean.com/?refcode=4af680f9f3f2&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg" alt="DigitalOcean Referral Badge" /></a>
-    					</div>
-					</div>
-				</div>
-			</section>
-		</footer>
+	<%- include('component/footer',{}) %>
 
 	<!-- Visual Scripts -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+		integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
+	</script>
 </body>
+
 </html>

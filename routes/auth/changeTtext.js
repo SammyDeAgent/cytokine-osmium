@@ -1,21 +1,20 @@
 exports.auth = function(req, res){
 
-    var new_sText = req.body.new_sText;
-    var id = req.session.acid;
+    var new_TText = req.body.new_TText;
+    var team_code = req.body.team_code;
 
-    if(new_sText){
+    if(new_TText){
         req.getConnection(function(err, connection){
             if (err) throw err;
-            connection.query('SELECT * FROM account_status WHERE id = ?',[id], function(err, data, fields){
+            connection.query('SELECT * FROM teams WHERE team_code = ?',[team_code], function(err, data, fields){
                 if (err) throw err;
                 if(data.length > 0){
-                    connection.query('UPDATE account_status SET status_text = ? WHERE id = ?',[
-                        new_sText,
-                        id
+                    connection.query('UPDATE teams SET team_desc = ? WHERE team_code = ?',[
+                        new_TText,
+                        team_code
                     ], function(err, data, fields){
                         if (err) throw err;
-                        req.session.sText = new_sText;
-                        res.redirect('/profile');
+                        res.redirect(`/team?code=${team_code}`);
                     });
                 }else{
                     res.send('Fatal error encounter! Please contact the site administrator.')

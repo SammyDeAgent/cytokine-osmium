@@ -2,10 +2,9 @@ const fs = require("fs");
 const path = require("path");
 
 exports.list = function(req, res){
-
+    
     const JSONPath = path.join(__dirname,'..','public','json','patch.json');
     const JSONData = fs.readFileSync(JSONPath, "utf-8");
-    const recentPatch = (JSON.parse(JSONData)).notes[0];
 
     if(req.session.loggedin){
         var username = req.session.username;
@@ -14,17 +13,15 @@ exports.list = function(req, res){
         if(verify !== 'VERIFIED'){
             return res.render('verify',{logged: 1,user_name:username, e_mail:email});
         } 
-        res.render('index',{
+        res.render('patch', {
             logged: 1,
-            user_name:username, 
-            e_mail:email, 
-            patch: recentPatch
-        });
+            data: JSON.parse(JSONData),
+        })
     }else{
-        res.render('index',{
+        res.render('patch', {
             logged: 0,
-            user_name:null,
-            patch: recentPatch
-        });
+            data: JSON.parse(JSONData),
+        })
     }
-};
+    
+}

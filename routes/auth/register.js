@@ -94,8 +94,8 @@ exports.auth = async function(req, res){
                                     throw error;
                                 }
                                 
-                                // Redirection to login menu or main menu
-                                res.redirect("/");
+                                // Redirection to login menu or auto-login
+                                res.redirect("/login");
                             })
                         })
                     })

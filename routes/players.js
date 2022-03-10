@@ -60,6 +60,12 @@ exports.profile = function(req, res){
         connection.query('SELECT * FROM accounts, account_status, account_special, account_verify WHERE accounts.id = account_status.id AND accounts.id = account_special.id AND account_verify.id = accounts.id AND username = ?',[req.query.username], async function(err, data){
             if(err) throw err;
             if(data.length > 0){
+
+                // Check if the player profile is the current session account profile
+                if(data[0].id == req.session.acid){
+                    return res.redirect('/profile');
+                }
+
                 connection.promise().query("SELECT DATE_FORMAT(register_stamp,'%d/%m/%Y') AS register_stamp FROM accounts WHERE username = ?", [req.query.username],
                     function (err, data, fields) {
                         if (err) throw err;

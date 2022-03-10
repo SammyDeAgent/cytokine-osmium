@@ -54,15 +54,21 @@ var register		= require('./routes/auth/register');
 var verifydata		= require('./routes/auth/verifydata');
 var login			= require('./routes/auth/login');
 var logout			= require('./routes/auth/logout');
+
 var changeSitename	= require('./routes/auth/changeSitename');
 var changeStext		= require('./routes/auth/changeStext');
 var changePimage	= require('./routes/auth/changePimage');
+
+var changeTimage 	= require('./routes/auth/changeTimage');
+var changeTtext		= require('./routes/auth/changeTtext');
 
 var teams			= require('./routes/teams');
 var players			= require('./routes/players');
 
 var index			= require('./routes/index');
 var profile			= require('./routes/profile');
+
+var patch			= require('./routes/patch');
 
 var exspell			= require('./routes/test/spells');
 var ajaxtest 		= require('./routes/test/ajaxtest');
@@ -122,12 +128,18 @@ app.get('/teams', teams.list);
 app.get('/team', teams.profile);
 app.post('/createTeam', teams.create);
 
-// Team join and leave
+// Team join and leave + Disband
 app.post('/joinTeam', teams.joining);
 app.post('/leaveTeam', teams.leaving);
+app.post('/disbandTeam', teams.disbanding);
 
 // Team Profile Settings
-app.post('/disbandTeam', teams.disbanding);
+app.post('/changeTimage', changeTimage.auth);
+app.post('/resetTimage', changeTimage.reset);
+app.post('/changeTtext', changeTtext.auth);
+
+// Patch and Updates
+app.get('/patch', patch.list);
 
 // Debug page
 app.get('/debug', function(req,res){

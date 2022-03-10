@@ -13,70 +13,7 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
-            <a class="navbar-brand" href="/">
-				<img class="mr-1" src="favicon.ico" width="40" height="40" alt="logo"/>
-				Cytokine Osmium <span class="badge badge-warning">Beta</span>
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarContent">
-				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item">
-        				<a class="nav-link" href="/">Home</a>
-      				</li>
-					<li class="nav-item">
-        				<a class="nav-link" href="/teams">Teams</a>
-      				</li>
-					<li class="nav-item">
-        				<a class="nav-link" href="/players">Players</a>
-      				</li>
-				</ul>
-				<% if(logged == 1) { %> 
-				<ul class="navbar-nav mr-2">
-					<li class="nav-item">
-        				<a class="nav-link" href="/profile">Your Profile</a>
-      				</li>
-				</ul>
-
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogout">
-					Logout
-				</button>
-
-				<div class="modal text-dark" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogout" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="modalLogoutLabel">Logout</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          							<span aria-hidden="true">&times;</span>
-        						</button>
-							</div>
-							<div class="modal-body">
-								Confirm logout?
-							</div>
-							<div class="modal-footer">
-								<form class="form-inline my-2 my-lg-0 mr-auto" action="/logout" method="GET">
-                        			<button class="btn btn-primary" type="submit">Proceed</button>
-                				</form>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<% }else{ %> 
-				<form class="form-inline my-2 my-lg-0 mr-2" action="/register" method="GET">
-                    <button class="btn btn-success type="submit">Register</button>
-                </form>
-				<form class="form-inline my-2 my-lg-0" action="/login" method="GET">
-                    <button class="btn btn-primary" type="submit">Login</button>
-                </form>
-				<% } %> 
-			</div>
-        </nav>
+    <%- include('component/navbar',{selected: 'players'}) %>
 
         <div class="container-fluid mt-3">
 			<div class="row no-gutters">
