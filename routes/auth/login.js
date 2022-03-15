@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 exports.auth = async function(req, res){
 
-    var email = req.body.email;
+  var email = req.body.email;
 	var password = req.body.password;
 	
 	if(email && password){
@@ -14,13 +14,12 @@ exports.auth = async function(req, res){
 				if(data.length > 0){
 					const comparison = await bcrypt.compare(password, data[0].password);
 					if(comparison){
-
 						// Email verification 
 						req.session.verify = data[0].verify_status;
 
 						req.session.loggedin = true;
 						req.session.acid = data[0].id;
-				        req.session.username = data[0].username;
+				    req.session.username = data[0].username;
 						req.session.sitename = data[0].sitename;
 						req.session.siteP = data[0].site_privilege;
 						req.session.pimage = data[0].pimage;
@@ -40,7 +39,7 @@ exports.auth = async function(req, res){
 					res.send('Incorrect Email and/or Password!');
 				}
 			});
-        })
+    })
 	}else{
 		res.send('Please enter Email and Password!');
 		res.end();

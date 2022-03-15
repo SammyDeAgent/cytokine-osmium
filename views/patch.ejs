@@ -33,22 +33,30 @@
     <hr>
 
     <ul class="list-group">
+        <%if(data.notes[i].patch.addition.length != 0) { %>
         <h3> New Additions </h3>
+        <% } %>
         <% for(let j = 0; j < data.notes[i].patch.addition.length; j++) { %>
             <li class="list-group-item "> <%= data.notes[i].patch.addition[j] %> </li>
         <% } %>
         
+        <%if(data.notes[i].patch.updates.length != 0) { %>
         <h3 class="mt-2"> Misc Updates </h3>
+        <% } %>
         <% for(let k = 0; k < data.notes[i].patch.updates.length; k++) { %>
             <li class="list-group-item "> <%= data.notes[i].patch.updates[k] %> </li>
         <% } %>
 
+        <%if(data.notes[i].patch.upcoming.length != 0) { %>
         <h3 class="mt-2"> Upcoming Patches </h3>
+        <% } %>
         <% for(let l = 0; l < data.notes[i].patch.upcoming.length; l++) { %>
             <li class="list-group-item "> <%= data.notes[i].patch.upcoming[l] %> </li>
         <% } %>
-
+        
+        <%if(data.notes[i].patch.issues.length != 0) { %>
         <h3 class="mt-2"> Incomplete and Issues </h3>
+        <% } %>
         <% for(let m = 0; m < data.notes[i].patch.issues.length; m++) { %>
             <li class="list-group-item "> <%= data.notes[i].patch.issues[m] %> </li>
         <% } %>

@@ -47,78 +47,116 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
 		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/index.css" />
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
 
 </head>
 
 <body>
 	<%- include('component/navbar',{selected: 'home'}) %>
+	
+	<div id="vanta-globe">
 
-	<div class="d-flex row no-gutters">
+	<div class="d-flex row no-gutters" style="min-height: 30rem;">
 
 		<div class="col-lg-8">
-			<div class="card m-3">
+			<div class="card m-3 border-0 bg-transparent text-warning">
 				<div class="card-body">
-					<h3 class="card-title">Welcome to Osmium!</h3>
+					<h2 class="card-title">Welcome to <span class="text-light">Osmium</span>!</h2>
+
 					<p class="card-text">
-						Upcoming team finder web app.
+						Team up, compete and gain reputation.
 					</p>
+
 					<% if(logged == 1) {%>
-					<p>Hello, <strong><%=user_name%></strong> ( <%=e_mail%> ) </p>
-					<p>Your account has been verified!</p>
+						<div class="card mt-5 d-inline-flex pt-3 pb-2 px-3 border-warning bg-transparent">
+							<p>Hello, <strong class="text-light"><%=user_name%></strong> ( <%=e_mail%> ) </p>
+							<p>Your account has been verified!</p>
+						</div>
 					<% } %>
 				</div>
 			</div>
+		</div>
+	</div>
 
-			<div class="card m-3">
-				<img class="card-img-top" src="img/cyto_banner.png">
+	<div class="d-flex row no-gutters">
+		
+		<div class="d-flex align-items-stretch col-lg-8">
+			<div class="card m-3 border-0">
+
+				<div class="card-header bg-dark text-warning">
+					🔧 Erectin' a dispenser
+				</div>
+
+				<img class="card-img-top rounded-0" src="img/cyto_banner.png">
+
 				<div class="card-body">
 					<h4 class="card-title">Site under construction</h4>
 					<p class='card-text'>
 						Stay tuned for more functionalities!<br>
 						Developed by <a href="https://github.com/SammyDeAgent" target="_blank">Sammy</a>
 					</p>
-					<form action="/debug" method="GET">
+					
+				</div>
+				<div class="card-footer bg-dark ">
+					<form class="mb-1" action="/debug" method="GET">
 						<button class="btn btn-secondary" type="submit">Debug Page</button>
 					</form>
 				</div>
 			</div>
-
 		</div>
 
-		<div class="col-lg-4">
-			<div class="card mt-3 mb-3 mr-3" style="overflow:scroll; max-height: 645px;">
-				<div class="card-body">
+		<div class="d-flex align-items-stretch col-lg-4">
+			<div class="card m-3 border-0" style="max-height: 35em;">
+
+				<div class="card-header bg-dark text-warning">
+					🗒️ Patch notes
+				</div>
+
+				<div class="card-body overflow-auto">
 					<h4 class="card-title">Update Logs - <strong>Beta <%= patch.version %></strong></h4>
 					<p>[<%= patch.date %>] - <%= patch.author %></p>
-					<a href="/patch" class="btn btn-block btn-info">Go to Update Page</a>
-					<hr class="bg-muted">
-					<div class="alert alert-warning" role="alert">
-						<strong>Heads up!</strong> Beta testing is live!
-					</div>
+					<hr class="bg-secondary">
+					
 					<ul class="list-group">
-						<h3> New Additions </h3>
+						<%if(patch.patch.addition.length != 0) { %>
+							<h3> New Additions </h3>
+						<% } %> 
 						<% for(let j = 0; j < patch.patch.addition.length; j++) { %>
-						<li class="list-group-item "> <%= patch.patch.addition[j] %> </li>
+						<li class="list-group-item bg-secondary text-light "> <%= patch.patch.addition[j] %> </li>
 						<% } %>
-
+						
+						<%if(patch.patch.updates.length != 0) { %>
 						<h3 class="mt-2"> Misc Updates </h3>
+						<% } %>
 						<% for(let k = 0; k < patch.patch.updates.length; k++) { %>
-						<li class="list-group-item "> <%= patch.patch.updates[k] %> </li>
+						<li class="list-group-item bg-secondary text-light"> <%= patch.patch.updates[k] %> </li>
 						<% } %>
-
+						
+						<%if(patch.patch.upcoming.length != 0) { %>
 						<h3 class="mt-2"> Upcoming Patches </h3>
-						<% for(let l = 0; l < patch.patch.upcoming.length; l++) { %>
-						<li class="list-group-item "> <%= patch.patch.upcoming[l] %> </li>
 						<% } %>
-
+						<% for(let l = 0; l < patch.patch.upcoming.length; l++) { %>
+						<li class="list-group-item bg-secondary text-light"> <%= patch.patch.upcoming[l] %> </li>
+						<% } %>
+						
+						<%if(patch.patch.issues.length != 0) { %>
 						<h3 class="mt-2"> Incomplete and Issues </h3>
+						<% } %>
 						<% for(let m = 0; m < patch.patch.issues.length; m++) { %>
-						<li class="list-group-item "> <%= patch.patch.issues[m] %> </li>
+						<li class="list-group-item bg-secondary text-light"> <%= patch.patch.issues[m] %> </li>
 						<% } %>
 					</ul>
 				</div>
+
+				<div class="card-footer bg-dark">
+					<a href="/patch" class="btn btn-block btn-info">Go to Update Page</a>
+				</div>
 			</div>
 		</div>
+	</div>
+
 	</div>
 
 	<%- include('component/footer',{}) %>
@@ -132,6 +170,23 @@
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
 		integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
+	</script>
+
+	<script>
+		VANTA.GLOBE({
+			el: "#vanta-globe",
+			mouseControls: true,
+			touchControls: true,
+			gyroControls: false,
+			minHeight: 200.00,
+			minWidth: 200.00,
+			scale: 1.0,
+			scaleMobile: 1.00,
+			color: 0xdeff00,
+			color2: 0xfff500,
+			size: 1.0,
+			backgroundColor: 0x181818
+		})
 	</script>
 </body>
 

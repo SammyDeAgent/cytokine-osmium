@@ -1,6 +1,25 @@
 {
-  "live_version": "b-1.0.0",
+  "live_version": "b-1.1.1",
   "notes": [
+    {
+      "version": "b-1.1.1",
+      "date": "15th March 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [
+        ],
+        "updates": [
+          "Some UI changes and updates"
+        ],
+        "upcoming": [
+          "Additional team controls eg. Kicks and Invites",
+          "Team searching and filtering",
+          "Lobby creation",
+          "Tournament creation"
+        ],
+        "issues": ["User rating and compliments in player's profile"]
+      }
+    },
     {
       "version": "b-1.1.0",
       "date": "10th March 2022",
