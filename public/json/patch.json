@@ -1,16 +1,31 @@
 {
-  "live_version": "b-1.1.1",
+  "live_version": "b-1.2.0",
   "notes": [
+    {
+      "version": "b-1.2.0",
+      "date": "19th March 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [
+          "Added a temporary page for lobbies"
+        ],
+        "updates": [],
+        "upcoming": [
+          "Additional team controls eg. Kicks and Invites",
+          "Team searching and filtering",
+          "Lobby creation",
+          "Tournament creation"
+        ],
+        "issues": ["User rating and compliments in player's profile"]
+      }
+    },
     {
       "version": "b-1.1.1",
       "date": "15th March 2022",
       "author": "Sammy",
       "patch": {
-        "addition": [
-        ],
-        "updates": [
-          "Some UI changes and updates"
-        ],
+        "addition": [],
+        "updates": ["Some UI changes and updates"],
         "upcoming": [
           "Additional team controls eg. Kicks and Invites",
           "Team searching and filtering",

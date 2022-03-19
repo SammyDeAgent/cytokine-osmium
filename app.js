@@ -64,6 +64,7 @@ var changeTtext			= require('./routes/auth/changeTtext');
 
 var teams						= require('./routes/teams');
 var players					= require('./routes/players');
+var lobbies					= require('./routes/lobbies');
 
 var index						= require('./routes/index');
 var profile					= require('./routes/profile');
@@ -137,6 +138,9 @@ app.post('/disbandTeam', teams.disbanding);
 app.post('/changeTimage', changeTimage.auth);
 app.post('/resetTimage', changeTimage.reset);
 app.post('/changeTtext', changeTtext.auth);
+
+// Lobby list and searching
+app.get('/lobbies', lobbies.list);
 
 // Patch and Updates
 app.get('/patch', patch.list);
