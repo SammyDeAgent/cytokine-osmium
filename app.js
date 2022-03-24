@@ -127,6 +127,9 @@ app.get('/playersSearch', players.search);
 // Teams list and searching
 app.get('/teams', teams.list);
 app.get('/team', teams.profile);
+app.get('/teamsSearch', teams.search);
+
+// Team creation
 app.post('/createTeam', teams.create);
 
 // Team join and leave + Disband
