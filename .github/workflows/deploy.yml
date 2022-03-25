@@ -22,8 +22,7 @@ jobs:
             git add -A
             git commit -a -m 'Commiting linux dependencies'
             git pull origin master
-            #rm -rf node_modules/
-            npm prune
+            rm -rf node_modules/
             npm update
             pm2 start app.js
             pm2 restart app
