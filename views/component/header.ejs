@@ -1,0 +1,65 @@
+<!-- Standard Metadata -->
+<title><%= title %></title>
+<link rel="shortcut icon" href="favicon.ico">
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta name="keywords" content="cytokine osmium">
+<meta name="author" content="Sammy">
+<meta name="copyright" content="Cytokine">
+<meta name="robots" content="index, follow">
+<meta http-equiv="content-type" content="text/html;UTF-8">
+<meta http-equiv="content-language" content="en">
+<meta name="og:locale" content="en_US" />
+
+<!-- Open Graph Metadata -->
+<meta property="og:site_name" content="Cytokine Osmium" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="<%= title %>" />
+<meta property="og:description" content="<%= description %>" />
+<meta property="og:url" content="https://cytokine-osmium.xyz<%= url %>" />
+<% if(!profile) {%>
+  <meta property="og:image" content="https://cytokine-osmium.xyz/img/Osmium_Backdrop.png" />
+  <meta property="og:image:width" content="2000" />
+  <meta property="og:image:height" content="1000" />
+<% } else { %>
+  <% switch(profileType) { 
+     case 'player': %>
+  <meta property="og:image" content="https://cytokine-osmium.xyz/img/user_pic/<%= picUrl %>" />
+  <% break;
+     case 'team': %>
+  <meta property="og:image" content="https://cytokine-osmium.xyz/img/team_pic/<%= picUrl %>" />
+  <% break; 
+  } %>
+<% } %> 
+
+<!-- Twitter Metadata -->
+<meta name="twitter:title" content="<%= title %>" />
+<meta name="twitter:description" content="<%= description %>" />
+<meta name="twitter:url" content="https://cytokine-osmium.xyz<%= url %>" />
+<% if(!profile) { %>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://cytokine-osmium.xyz/img/Osmium_Backdrop_Twitter.png" />
+<% } else { %>
+  <% switch(profileType) { 
+     case 'player': %>
+      <meta name="twitter:image" content="https://cytokine-osmium.xyz/img/user_pic/<%= picUrl %>" />
+    <% break;
+     case 'team': %>
+      <meta name="twitter:image" content="https://cytokine-osmium.xyz/img/team_pic/<%= picUrl %>" />
+    <% break; 
+  } %>
+<% } %> 
+
+<!-- Discord Border Colour -->
+<meta name="theme-color" content="#85ff00"/>
+
+<!-- Schema.org for Google -->
+<meta itemprop="name" content="Cytokine Osmium"/>
+<meta itemprop="description" content="" />
+<meta itemprop="image" content="" />
+
+<!--    Custom Font Here    -->
+<!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"/>  -->
