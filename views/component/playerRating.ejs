@@ -75,7 +75,7 @@
       </div>
     </div>
   </div>
-  <% if(!profile){%>
+  <% if(!profile && logged == 1){%>
   <div class="card-footer">
     <% if(voted.exist == 0){ %>
       <button id="upvote_button" class="btn btn-success">👍 Compliment</button>
