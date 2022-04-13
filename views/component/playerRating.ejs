@@ -1,0 +1,140 @@
+<div class="card m-2">
+  <div class="card-header">
+    <strong>Player Ratings</strong>
+    <button type="button" class="btn btn-sm btn-secondary float-right" data-toggle="tooltip" data-placement="left"
+      title="
+      Default account rating start at 1000,
+      each complement increases rating by 10 or vice-versa deduce 10 for disapproval.
+      Participation awards 1 and finalist awards 20!
+      Special events may increase the players rating too!
+      ">
+      ❔
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-3 d-flex align-self-center justify-content-center">
+        <%
+          function calRating(stat){
+            return 1000 + (stat.compliment*10) + (stat.disapprove*(-10))
+            + (stat.lobby_complete + stat.tourn_complete)
+            + (stat.tourn_finalist*20)
+            + stat.special_rating;
+          }
+          function displayRating(stat){
+            if(stat == 1000 || stat > 1000){
+              return "badge-success";
+            }else if(stat < 1000 && stat > 500){
+              return "badge-warning";
+            }else if(stat < 500 && stat > 0){
+              return "badge-danger";
+            }else if(stat < 0){
+              return "badge-dark";
+            }
+          }								
+        %>
+        <div class="display-3"> <span
+            class="badge <%= displayRating(calRating(ratingData[0])) %>"><%= calRating(ratingData[0]) %></span></div>
+      </div>
+      <div class="col-lg-8">
+        <h5>Compliments</h5>
+        <h5>Lobbies Participated</h5>
+        <h5>Tournaments Participated</h5>
+        <h5>Tournaments Finalists</h5>
+      </div>
+      <div class="col-lg-1">
+        <%
+          function displayStats(stat){
+            if(stat == 0){
+              return "badge-secondary";
+            }else if(stat > 0){
+              return "badge-info";
+            }else if(stat < 0){
+              return "badge-danger";
+            }
+          }								
+        %>
+        <h5>
+          <% const overall_compliment = ratingData[0].compliment - ratingData[0].disapprove %>
+          <span div class="badge <%= displayStats(overall_compliment) %>">
+            <%= overall_compliment %>
+          </span>
+        </h5>
+        <h5><span div class="badge <%= displayStats(ratingData[0].lobby_complete) %>">
+            <%= ratingData[0].lobby_complete %>
+          </span>
+        </h5>
+        <h5><span div class="badge <%= displayStats(ratingData[0].tourn_complete) %>">
+            <%= ratingData[0].tourn_complete %>
+          </span>
+        </h5>
+        <h5><span div class="badge <%= displayStats(ratingData[0].tourn_finalist) %>">
+            <%= ratingData[0].tourn_finalist %>
+          </span>
+        </h5>
+      </div>
+    </div>
+  </div>
+  <% if(!profile){%>
+  <div class="card-footer">
+    <% if(voted.exist == 0){ %>
+      <button id="upvote_button" class="btn btn-success">👍 Compliment</button>
+      <button id="downvote_button" class="btn btn-danger">👎 Disapprove</button>
+    <% } else { %>
+      <span>You have casted a <strong><%= voted.desc %></strong> vote.</span>
+      <button id="reset_button" class="btn btn-secondary float-right">Reset Vote</button>
+    <% } %>
+    
+  </div>
+  <script>
+    $('#upvote_button').click(function () {
+      $('#upvote_button').prop('disabled', true);
+      $('#downvote_button').prop('disabled', true);
+      $('#reset_button').prop('disabled', true);
+      $.ajax({
+        url: '/upvote',
+        type: 'POST',
+        data: {
+          'username': '<%= username %>',
+          'acid': '<%= acid %>'
+        },
+        success: function (data) {
+          location.reload();
+        }
+      });
+    });
+    $('#downvote_button').click(function () {
+      $('#upvote_button').prop('disabled', true);
+      $('#downvote_button').prop('disabled', true);
+      $('#reset_button').prop('disabled', true);
+      $.ajax({
+        url: '/downvote',
+        type: 'POST',
+        data: {
+          'username': '<%= username %>',
+          'acid': '<%= acid %>'
+        },
+        success: function (data) {
+          location.reload();
+        }
+      });
+    });
+    $('#reset_button').click(function () {
+      $('#upvote_button').prop('disabled', true);
+      $('#downvote_button').prop('disabled', true);
+      $('#reset_button').prop('disabled', true);
+      $.ajax({
+        url: '/resetVote',
+        type: 'POST',
+        data: {
+          'username': '<%= username %>',
+          'acid': '<%= acid %>'
+        },
+        success: function (data) {
+          location.reload();
+        }
+      });
+    });
+  </script>
+  <% } %>
+</div>

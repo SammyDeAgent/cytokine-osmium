@@ -1,7 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
+// Logger Module
+const logger = require('../log')('Home');
+
 exports.list = function (req, res) {
+	
+	logger.info(`${req.ip} is requesting the home page.`);
 
 	const JSONPath = path.join(__dirname, '..', 'public', 'json', 'patch.json');
 	const JSONData = fs.readFileSync(JSONPath, "utf-8");

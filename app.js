@@ -2,22 +2,19 @@
 const express = require('express');
 // const router = express.Router({strict: true});
 const session = require('express-session');
-
 const busboy = require('connect-busboy');
 // const Busboy = require('busboy');
 // const multer = require('multer');
 // const pFile = multer({dest: __dirname + '/public/user_pic'});
-
 const fs = require('fs');
-
 const fileUpload = require('express-fileupload');
-
 const MySQLStore = require('express-mysql-session')(session);
-
 const favicon = require('serve-favicon');
 const path = require('path');
-
 const slashes = require("connect-slashes"); //Eliminates trailing slashs
+
+// Logger Module
+const logger = require('./log')('Controller');
 
 // SQL Connection
 const mysql = require('mysql2');
@@ -69,6 +66,8 @@ var lobbies					= require('./routes/lobbies');
 var index						= require('./routes/index');
 var profile					= require('./routes/profile');
 
+var compVote				= require('./routes/complimentVote');
+
 var patch						= require('./routes/patch');
 
 var exspell					= require('./routes/test/spells');
@@ -91,6 +90,7 @@ app.get('/register', function(req, res){
 		res.sendFile(path.join(__dirname,'www/register.html'));
 	}
 	else{
+		logger.error('403: Forbidden' + ' - ' + req.ip);
 		return res.sendFile(path.join(__dirname,'www/error/403.html'));
 	}
 });
@@ -104,6 +104,7 @@ app.get('/login', function(req, res){
 	if(!req.session.loggedin){
 		res.sendFile(path.join(__dirname,'www/login.html'));
 	}else{
+		logger.error('403: Forbidden' + ' - ' + req.ip);
 		return res.sendFile(path.join(__dirname,'www/error/403.html'));
 	}
 });
@@ -123,6 +124,11 @@ app.post('/resetPimage', changePimage.reset);
 app.get('/players', players.list);
 app.get('/player', players.profile);
 app.get('/playersSearch', players.search);
+
+// Compliments and Ratings
+app.post('/upVote', compVote.upvote);
+app.post('/downVote', compVote.downvote);
+app.post('/resetVote', compVote.reset);
 
 // Teams list and searching
 app.get('/teams', teams.list);
@@ -169,10 +175,11 @@ app.post('/ajaxtest',ajaxtest.search);
 app.get('*', function(req, res, next) {
   res.status(404);
   res.sendFile(path.join(__dirname,'www/error/404.html'));
+	logger.error('404: ' + req.url + ' - ' + req.ip);
 });
 
 app.listen(port, function(){
-	console.log('App started on Port '+port);
+	logger.info('Server started on port ' + port);
 });
 
 module.exports = app;

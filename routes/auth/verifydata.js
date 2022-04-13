@@ -1,33 +1,43 @@
-exports.auth = function(req, res){
+// Logger Module
+const logger = require('../../log')('Verify');
 
-    var code = req.body.verify_code;
-    var id = req.session.acid;
+exports.auth = function (req, res) {
 
-    var verified = "VERIFIED";
+	logger.info(`${req.ip} is requesting the verify page.`);
 
-    req.getConnection(function(err, connection){
-        if(err) throw err;
-        connection.query('SELECT * FROM account_verify WHERE account_verify.id = ?', [id],
-        function(err, data, fields){
-            if(err) throw err;
-            if(data.length > 0){
-                if(data[0].verify_code == code){
-                    connection.query('UPDATE account_verify SET verify_code = NULL, verify_status = ? WHERE id = ?', [
-                        verified,
-                        id
-                    ], function(err, data, fields){
-                        if(err) throw err;
+	var code = req.body.verify_code;
+	var id = req.session.acid;
 
-                        req.session.verify = "VERIFIED";
-                        res.redirect('/');
+	var verified = "VERIFIED";
 
-                    })
-                }else{
-                    res.send('Incorrect verification code, please try again!');
-                }
-            }else{
-                res.send('500 Server Error!');
-            }
-        })
-    })
+	req.getConnection(function (err, connection) {
+		if (err) logger.error(new Error(err));
+
+		connection.query('SELECT * FROM account_verify WHERE account_verify.id = ?', [id],
+			function (err, data, fields) {
+				if (err) logger.error(new Error(err));
+
+				if (data.length > 0) {
+					if (data[0].verify_code == code) {
+						connection.query('UPDATE account_verify SET verify_code = NULL, verify_status = ? WHERE id = ?', [
+							verified,
+							id
+						], function (err, data, fields) {
+							if (err) logger.error(new Error(err));
+
+							req.session.verify = "VERIFIED";
+							logger.info(`${req.ip} has verified their account.`);
+							res.redirect('/');
+
+						})
+					} else {
+						logger.warn(`${req.ip} is trying to verify with an invalid code.`);
+						res.send('Incorrect verification code, please try again!');
+					}
+				} else {
+					logger.error(new Error(err));
+					res.send('500 Server Error!');
+				}
+			})
+	})
 }

@@ -1,8 +1,8 @@
-.table-hover{
-    background: transparent;
-    transition: background 0.3s;
+.table-hover {
+	background: transparent;
+	transition: background 0.3s;
 }
 
-.table-hover:hover{
-    background: rgb(199, 199, 199);
+.table-hover:hover {
+	background: rgb(199, 199, 199);
 }

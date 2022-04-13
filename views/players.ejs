@@ -1,5 +1,5 @@
-<html prefix="og: http://ogp.me/ns#" lang="en-US ">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
 
 	<%- include('component/header',{profile: false, title: 'Player List', description: 'Search and find fellow teammates to fight along side.', url: '/players'}) %>
@@ -28,57 +28,55 @@
 
 			<hr class="bg-muted"">
 
-				<% if (search) { %>
-					<div class=" d-flex flex-row alert alert-success mb-1">
-			<div class="mr-auto">
-				Searching for keyword: "<strong><%= query %></strong>"
-			</div>
-			<button class="btn btn-outline-secondary btn-sm" onclick="window.location.href='/players'">Clear</button>
-		</div>
-		<% } %>
-
-
-
-		<div class="d-flex justify-content-center flex-column flex-wrap">
-			<% if(data.length){
-                    for(var i = 0;i < data.length;i++) { %>
-
-			<a class="text-dark" href="/player?username=<%=data[i].username%>" style="text-decoration:none">
-				<div class="row rounded m-0 p-2 no-gutters table-hover">
-					<div class="col-1">
-						<img class="rounded-circle shadow" src="/user_pic/<%= data[i].pimage %>"
-							alt="<%= data[i].username %> profile pic" style="max-width: 64px;">
+			<% if (search) { %>
+				<div class=" d-flex flex-row alert alert-success mb-1">
+					<div class="mr-auto">
+						Searching for keyword: "<strong><%= query %></strong>"
 					</div>
-					<div class="col-11 pt-2 text-right text-lg-left text-truncate">
-						<% if(data[i].verify_status === 'VERIFIED') {%>
-						<i class="fas fa-check-square" style="color:goldenrod" data-toggle="tooltip" data-placement="top"
-							title="Verified">
-						</i>
-						<%}%>
-            <strong><%= data[i].sitename %></strong> ( <%= data[i].username %> )
-
-						<% if (data[i].site_privilege == 'DEV') { %>
-
-						<span class="badge badge-pill badge-success"> DEV </span>
-						<% } else if(data[i].site_privilege == 'VIP') { %>
-						<span class="badge badge-pill badge-info"> VIP </span>
-						<% } %>
-
-						<% if (data[i].username == authname) { %>
-						<span class="badge badge-pill badge-primary"> YOU </span>
-						<% } %>
-
-						<p class="text-muted"><%= data[i].status_text %></p>
-					</div>
+					<button class="btn btn-outline-secondary btn-sm" onclick="window.location.href='/players'">Clear</button>
 				</div>
-			</a>
-
-			<% }}else{ %>
-			<p>No records available.</p>
 			<% } %>
 
+			<div class="d-flex justify-content-center flex-column flex-wrap">
+				<% if(data.length){
+											for(var i = 0;i < data.length;i++) { %>
+
+				<a class="text-dark" href="/player?username=<%=data[i].username%>" style="text-decoration:none">
+					<div class="row rounded m-0 p-2 no-gutters table-hover">
+						<div class="col-1">
+							<img class="rounded-circle shadow" src="/user_pic/<%= data[i].pimage %>"
+								alt="<%= data[i].username %> profile pic" style="max-width: 64px;">
+						</div>
+						<div class="col-11 pt-2 text-right text-lg-left text-truncate">
+							<% if(data[i].verify_status === 'VERIFIED') {%>
+							<i class="fas fa-check-square" style="color:goldenrod" data-toggle="tooltip" data-placement="top"
+								title="Verified">
+							</i>
+							<%}%>
+							<strong><%= data[i].sitename %></strong> ( <%= data[i].username %> )
+
+							<% if (data[i].site_privilege == 'DEV') { %>
+
+							<span class="badge badge-pill badge-success"> DEV </span>
+							<% } else if(data[i].site_privilege == 'VIP') { %>
+							<span class="badge badge-pill badge-info"> VIP </span>
+							<% } %>
+
+							<% if (data[i].username == authname) { %>
+							<span class="badge badge-pill badge-primary"> YOU </span>
+							<% } %>
+
+							<p class="text-muted"><%= data[i].status_text %></p>
+						</div>
+					</div>
+				</a>
+
+				<% }}else{ %>
+				<p>No records available.</p>
+				<% } %>
+
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<!-- Visual Scripts -->

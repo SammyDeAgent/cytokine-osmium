@@ -6,7 +6,12 @@ const {
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+// Logger Module
+const logger = require('../../log')('Register');
+
 exports.auth = async function (req, res) {
+
+	logger.info(`${req.ip} is requesting the register page.`);
 
 	// Nodemailer testing
 	let testMail = await nodemailer.createTestAccount();
@@ -55,9 +60,13 @@ exports.auth = async function (req, res) {
 
 	if (username && email && password) {
 		req.getConnection(function (err, connection) {
-			if (err) throw err;
+			if (err) logger.error(new Error(err));
+
 			connection.query('SELECT * FROM accounts;', function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
+
+				// Check for duplicate username or email
+
 				connection.query("INSERT INTO accounts (id, username, sitename, pimage, email, password, register_stamp) VALUES (?,?,?,?,?,?,(STR_TO_DATE(?, '%d/%m/%Y')));",
 					[
 						accid,
@@ -69,37 +78,43 @@ exports.auth = async function (req, res) {
 						stamp
 					],
 					function (err, data, fields) {
-						if (err) throw err;
+						if (err) logger.error(new Error(err));
+
 						connection.query("INSERT INTO account_status (id, status_text) VALUES (?,?)",
 							[
 								accid,
 								defaultStext
 							],
 							function (err, data, fields) {
-								if (err) throw err;
+								if (err) logger.error(new Error(err));
+
 								connection.query("INSERT INTO account_special (id, site_privilege) VALUES (?,?)",
 									[
 										accid,
 										defaultSiteP
 									],
 									function (err, data, fields) {
-										if (err) throw err;
+										if (err) logger.error(new Error(err));
+
 										connection.query("INSERT INTO account_verify (id, verify_status, verify_code) VALUES (?,?,?)",
 											[
 												accid,
 												"PENDING",
 												verify_code
 											], async function (err, data, fields) {
-												if (err) throw err;
+												if (err) logger.error(new Error(err));
 
 												// Email verifier sender
+												logger.info('Sending verification email to ' + email);
 												try {
 													await transporter.sendMail(mailOptions);
+													logger.info('Verification email sent to ' + email);
 												} catch (error) {
-													throw error;
+													logger.error(new Error(err));
 												}
-
+												
 												// Redirection to login menu or auto-login
+												logger.info(`${req.ip} has successfully registered.`);
 												res.redirect("/login");
 											})
 									})
@@ -108,6 +123,7 @@ exports.auth = async function (req, res) {
 			});
 		});
 	} else {
+		logger.warn(`${req.ip} is trying to register with incomplete information.`);
 		res.send('Please enter the correct credentials!');
 		res.end();
 	}

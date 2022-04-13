@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <%- include('component/header',{profile: false, title: 'Verification', description: 'Please verify your account, non-verified account would be remove from the system within 1 month.', url: '/verify'}) %>
+	<%- include('component/header',{profile: false, title: 'Verification', description: 'Please verify your account, non-verified account would be remove from the system within 1 month.', url: '/verify'}) %>
 
-    <!-- External Files and Plugins -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<!-- External Files and Plugins -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-    <style>
-        html, body{
-            background: grey;
-        }
-        .btn-w {
-            width: 100%;
-        }
-    </style>
+	<style>
+		html,
+		body {
+			background: grey;
+		}
+
+		.btn-w {
+			width: 100%;
+		}
+	</style>
 
 </head>
+
 <body>
-    <div class="card m-3 p-5">
-        <div class="d-flex flex-row align-items-center mb-2">
-            <h2>Email Verification</h2>
-            
-        </div>
-        <h4>Please enter the verification code sent to your registered email</h4>
-        <form action="/verifydata" method="POST">
-            <div class="form-group">
-                <input class="form-control" type="text" name="verify_code" placeholder="Verification Code" required/>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-w">Login</button>
-            </div>
-        </form>
-        <form action="/logout" method="get">
-            <button type="submit" class="btn btn-secondary btn-w">Logout</button>
-        </form>
-    </div>
+	<div class="card m-3 p-5">
+		<div class="d-flex flex-row align-items-center mb-2">
+			<h2>Email Verification</h2>
+
+		</div>
+		<h4>Please enter the verification code sent to your registered email</h4>
+		<form action="/verifydata" method="POST">
+			<div class="form-group">
+				<input class="form-control" type="text" name="verify_code" placeholder="Verification Code" required />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-w">Login</button>
+			</div>
+		</form>
+		<form action="/logout" method="get">
+			<button type="submit" class="btn btn-secondary btn-w">Logout</button>
+		</form>
+	</div>
 </body>
+
 </html>

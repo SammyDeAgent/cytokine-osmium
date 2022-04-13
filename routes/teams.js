@@ -1,7 +1,12 @@
 const path = require("path");
 const connection = require("express-myconnection");
 
+// Logger Module
+const logger = require('../log')('Teams');
+
 exports.list = function (req, res) {
+
+	logger.info(`${req.ip} is requesting the teams page.`);
 
 	var logged;
 	var query = null;
@@ -24,11 +29,11 @@ exports.list = function (req, res) {
 	}
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 		connection.promise().query("SELECT * FROM teams")
 			.then(
 				([rows, fields, err]) => {
-					if (err) throw err;
+					if (err) logger.error(new Error(err));
 					res.render('teams', {
 						logged,
 						data: rows,
@@ -41,6 +46,8 @@ exports.list = function (req, res) {
 };
 
 exports.create = function (req, res) {
+
+	logger.info(`${req.ip} is requesting the team creation.`);
 
 	var logged;
 	var verify = req.session.verify;
@@ -72,12 +79,12 @@ exports.create = function (req, res) {
 	let stamp = date + "/" + month + "/" + year;
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 
 		// Check if user already created a team
 		connection.query("SELECT * FROM team_comp WHERE team_member = ?", [id],
 			function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
 				if (data.length <= 0) {
 
 					var team_code = codeGen();
@@ -94,7 +101,7 @@ exports.create = function (req, res) {
 							inv_code
 						],
 						function (err, data, fields) {
-							if (err) throw err;
+							if (err) logger.error(new Error(err));
 
 							connection.query("INSERT INTO team_comp (team_code, team_member) VALUES (?,?)",
 								[
@@ -102,7 +109,8 @@ exports.create = function (req, res) {
 									id
 								],
 								function (err, data, fields) {
-									if (err) throw err;
+									if (err) logger.error(new Error(err));
+									logger.info(`${req.ip} has created a team.`);
 									res.redirect('/team?code=' + team_code);
 								})
 
@@ -110,6 +118,7 @@ exports.create = function (req, res) {
 						});
 
 				} else {
+					logger.warn(`${req.ip} has already created a team.`);
 					res.send("You have already created a Team!");
 				}
 			})
@@ -131,6 +140,8 @@ const codeGen = (length = 8) => {
 };
 
 exports.profile = function (req, res) {
+
+	logger.info(`${req.ip} is requesting the team profile page.`);
 
 	var logged;
 	var teammates = [];
@@ -155,17 +166,17 @@ exports.profile = function (req, res) {
 	}
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 
 		// Check if the viewer is Team Leader
 
 		connection.query('SELECT * FROM teams, team_comp, accounts, account_special, account_status WHERE teams.team_code = team_comp.team_code AND accounts.id = team_comp.team_member AND account_status.id = accounts.id AND account_special.id = accounts.id AND teams.team_code = ?', [req.query.code],
 			function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
 				if (data.length > 0) {
 					connection.promise().query("SELECT DATE_FORMAT(team_cTime,'%d/%m/%Y') AS team_cTime FROM teams WHERE team_code = ?", [req.query.code],
 						function (err, data, fields) {
-							if (err) throw err;
+							if (err) logger.error(new Error(err));
 						}
 					).then(
 						([rows, fields]) => {
@@ -216,6 +227,7 @@ exports.profile = function (req, res) {
 
 						});
 				} else {
+					logger.error('404: ' + req.url + ' - ' + req.ip);
 					return res.sendFile(path.join(__dirname, "../..", 'www/error/404.html'));
 				}
 			})
@@ -224,16 +236,18 @@ exports.profile = function (req, res) {
 
 exports.joining = function (req, res) {
 
+	logger.info(`${req.ip} is requesting to join a team.`);
+
 	var invCode = req.body.invCode;
 	var teamCode = req.body.teamCode;
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 
 		connection.query('SELECT * FROM teams WHERE team_code = ?',
 			[teamCode],
 			function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
 
 				// Check if invCode is correct
 				if (invCode == data[0].team_invCode) {
@@ -243,10 +257,12 @@ exports.joining = function (req, res) {
 							req.session.acid,
 						],
 						function (err, data, fields) {
-							if (err) throw err;
+							if (err) logger.error(new Error(err));
+							logger.info(`${req.ip} has joined the team.`);
 							res.redirect('/team?code=' + teamCode);
 						})
 				} else {
+					logger.warn(`${req.ip} has failed to join the team.`);
 					res.send('Incorrect invitational code, please contact the team leader!');
 				}
 			})
@@ -257,14 +273,17 @@ exports.joining = function (req, res) {
 
 exports.leaving = function (req, res) {
 
+	logger.info(`${req.ip} is requesting to leave a team.`);
+
 	var teamCode = req.body.teamCode;
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 		connection.query('DELETE FROM team_comp WHERE team_code = ? AND team_member = ?',
 			[teamCode, req.session.acid],
 			function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
+				logger.info(`${req.ip} has left the team.`);
 				res.redirect('/teams');
 			})
 	})
@@ -273,14 +292,17 @@ exports.leaving = function (req, res) {
 
 exports.disbanding = function (req, res) {
 
+	logger.info(`${req.ip} is requesting to disband a team.`);
+
 	var teamCode = req.body.teamCode;
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 		connection.query('DELETE FROM teams WHERE team_code = ?',
 			[teamCode],
 			function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
+				logger.info(`${req.ip} has disbanded the team.`);
 				res.redirect('/teams');
 			})
 	})
@@ -288,6 +310,9 @@ exports.disbanding = function (req, res) {
 }
 
 exports.search = function (req, res){
+
+	logger.info(`${req.ip} is requesting to search for a team.`);
+
 	var logged;
 	var search = 1;
 	var query = req.query.search;
@@ -315,7 +340,7 @@ exports.search = function (req, res){
 	}
 
 	req.getConnection(function (err, connection) {
-		if (err) throw err;
+		if (err) logger.error(new Error(err));
 
 		connection.query('SELECT * FROM teams WHERE team_name LIKE ? OR team_code LIKE ? ;',
 			[
@@ -323,7 +348,7 @@ exports.search = function (req, res){
 				querySearch
 			],
 			function (err, data, fields) {
-				if (err) throw err;
+				if (err) logger.error(new Error(err));
 				if (!data.length > 0) exception = 1;
 				res.render("teams", {
 					logged,

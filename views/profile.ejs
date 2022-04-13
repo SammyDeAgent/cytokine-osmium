@@ -161,17 +161,9 @@
 					</div>
 				</div>
 				<div class="col-lg-9">
-					<div class="card m-2">
-						<div class="card-body">
-							<div class="rounded border border-dark p-3">
-								<span class="badge badge-success">Helpful | 7</span>
-								<span class="badge badge-info">Friendly | 4</span>
-								<span class="badge badge-secondary">Respectable | 2</span>
-								<span class="badge badge-warning">Skilled | 1</span>
-								<span class="">+</span>
-							</div>
-						</div>
-					</div>
+					
+					<%- include('component/playerRating',{ratingData, profile: true}) %>
+
 					<div class="card m-2">
 						<div class="card-body">
 							<% if(exception) { %>
