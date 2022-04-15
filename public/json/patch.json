@@ -1,6 +1,29 @@
 {
-  "live_version": "b-1.3.1",
+  "live_version": "b-1.3.2",
   "notes": [
+    {
+      "version": "b-1.3.2",
+      "date": "15th April 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [],
+        "updates": [
+          "Fixed an issue where compliments is not initiated when the user is registering.",
+          "Fixed an issue where vote reset would reset the rating entirely.",
+          "Fixed color encoding in log files.",
+          "Minor webapp security patch."
+        ],
+        "upcoming": [
+          "Pagination for optimization",
+          "Additional team controls eg. Kicks and Invites",
+          "Lobby creation",
+          "Tournament creation"
+        ],
+        "issues": [
+          "Registration email - verification code is currently not working as of Google OAuth Terms Update."
+        ]
+      }
+    },
     {
       "version": "b-1.3.1",
       "date": "14th April 2022",

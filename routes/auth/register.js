@@ -65,7 +65,7 @@ exports.auth = async function (req, res) {
 			connection.query('SELECT * FROM accounts;', function (err, data, fields) {
 				if (err) logger.error(new Error(err));
 
-				// Check for duplicate username or email
+				// TODO - Check for duplicate username or email
 
 				connection.query("INSERT INTO accounts (id, username, sitename, pimage, email, password, register_stamp) VALUES (?,?,?,?,?,?,(STR_TO_DATE(?, '%d/%m/%Y')));",
 					[
@@ -101,21 +101,26 @@ exports.auth = async function (req, res) {
 												accid,
 												"PENDING",
 												verify_code
-											], async function (err, data, fields) {
+											], function (err, data, fields) {
 												if (err) logger.error(new Error(err));
 
-												// Email verifier sender
-												logger.info('Sending verification email to ' + email);
-												try {
-													await transporter.sendMail(mailOptions);
-													logger.info('Verification email sent to ' + email);
-												} catch (error) {
-													logger.error(new Error(err));
-												}
-												
-												// Redirection to login menu or auto-login
-												logger.info(`${req.ip} has successfully registered.`);
-												res.redirect("/login");
+												connection.query('INSERT INTO account_compliments (id, compliment, disapprove, lobby_complete, tourn_complete, tourn_finalist, special_rating) VALUES (?,?,?,?,?,?,?);',
+												[accid, 0, 0, 0, 0, 0, 0], async function(err, data, fields) {
+													if(err) logger.error(new Error(err));
+
+													// Email verifier sender
+													logger.info('Sending verification email to ' + email);
+													try {
+														await transporter.sendMail(mailOptions);
+														logger.info('Verification email sent to ' + email);
+													} catch (error) {
+														logger.error(new Error(err));
+													}
+
+													// Redirection to login menu or auto-login
+													logger.info(`${req.ip} has successfully registered.`);
+													res.redirect("/login");
+												})
 											})
 									})
 							})

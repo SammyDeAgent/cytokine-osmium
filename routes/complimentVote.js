@@ -125,13 +125,14 @@ exports.downvote = function (req, res) {
 
 exports.reset = function (req, res) {
 
-  logger.info(`${req.ip} is resetting a player's vote.`);
+  logger.info(`${req.ip} is resetting their vote.`);
 
   var logged;
   var authname;
 
   const player_username = req.body.username;
   const acid = req.body.acid;
+  const desc = req.body.voted_desc;
 
   if (req.session.loggedin) {
     logged = 1;
@@ -166,19 +167,39 @@ exports.reset = function (req, res) {
           logger.error('403: Forbidden ' + req.url + ' - ' + req.ip);
         }
       });
+    
+    // Check if player casted vote is either up or down, then decrease the vote in the database accordingly
+    if(desc == 'Compliment') {
+      connection.query('UPDATE account_compliments SET compliment = compliment - 1 WHERE id = ?',
+        [acid],
+        function (err, data, fields) {
+          if (err) logger.error(new Error(err));
 
-    connection.query('UPDATE account_compliments SET compliment = 0, disapprove = 0 WHERE id = ?',
-      [acid],
-      function (err, data, fields) {
-        if (err) logger.error(new Error(err));
-        
-        // Reset all vote checks
-        connection.query('DELETE FROM account_voted WHERE id = ? AND voted_id = ?',
-          [user_id, acid],
-          function (err, data, fields) {
-            if (err) logger.error(new Error(err));
-            res.redirect(`/player?username=${player_username}`);
-          })
-      });
+          // Reset all vote checks
+          connection.query('DELETE FROM account_voted WHERE id = ? AND voted_id = ?',
+            [user_id, acid],
+            function (err, data, fields) {
+              if (err) logger.error(new Error(err));
+              res.redirect(`/player?username=${player_username}`);
+            })
+        });
+    }else if(desc == 'Disapprove'){
+      connection.query('UPDATE account_compliments SET disapprove = disapprove - 1 WHERE id = ?',
+        [acid],
+        function (err, data, fields) {
+          if (err) logger.error(new Error(err));
+
+          // Reset all vote checks
+          connection.query('DELETE FROM account_voted WHERE id = ? AND voted_id = ?',
+            [user_id, acid],
+            function (err, data, fields) {
+              if (err) logger.error(new Error(err));
+              res.redirect(`/player?username=${player_username}`);
+            })
+        });
+    }else {
+      logger.error('Unknown vote type');
+      res.redirect(`/player?username=${player_username}`);
+    }
   });
 }

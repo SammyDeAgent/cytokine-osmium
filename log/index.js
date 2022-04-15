@@ -1,5 +1,6 @@
 const {format, createLogger, transports} = require('winston');
 const {combine, timestamp, label, printf} = format;
+const moment = require('moment-timezone');
 
 module.exports = function (module) {
 
@@ -13,6 +14,10 @@ module.exports = function (module) {
     return `[Osmium] ${timestamp} - [${level}]:[${label}] ${stack || message}`;
   });
 
+  const timezoned = () => {
+    return moment().tz('Asia/Kuala_Lumpur').format('YYYY-MM-DD hh:mm:ss A z');
+  }
+
   const logger = createLogger({
     level: 'debug',
     format: combine(
@@ -21,22 +26,23 @@ module.exports = function (module) {
         stack: true
       }),
       timestamp({
-        format: 'YYYY-MM-DD hh:mm:ss A'
+        format: timezoned
       }),
       label({label: module}),
       logFormat
     ),
     transports: [
-      // new transports.File({
-      //   filename: './log/combined.log'
-      // }),
+      new transports.File({
+        filename: './log/combined.txt',
+        format: format.uncolorize()
+      }),
       new transports.Console()
     ],
     defaultMeta: {
       service: 'user-service'
     }
   });
-
+  
   return logger;
 }
 

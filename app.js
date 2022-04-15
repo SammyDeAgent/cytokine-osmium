@@ -13,6 +13,8 @@ const favicon = require('serve-favicon');
 const path = require('path');
 const slashes = require("connect-slashes"); //Eliminates trailing slashs
 
+require('dotenv').config();
+
 // Logger Module
 const logger = require('./log')('Controller');
 
@@ -20,18 +22,19 @@ const logger = require('./log')('Controller');
 const mysql = require('mysql2');
 const connection = require('express-myconnection'),
 dbOptions = {
-	host: "localhost",
-	user: "root",
-	password: "Sql_osmium576",
-	database: "osmium"
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASS,
+	database: process.env.DB_SCHEMA
 };
 
 // App initialization and Session
 const app = express();
+app.set('trust proxy', true);
 app.use(connection(mysql, dbOptions, 'request'));
 const sessionStore = new MySQLStore(dbOptions);
 app.use(session({
-	secret:				'cyto osmium',
+	secret:				process.env.SESSION_SECRET,
 	store:				sessionStore,
 	cookie: {
       					maxAge: 30 * 24 * 60 * 60 * 1000

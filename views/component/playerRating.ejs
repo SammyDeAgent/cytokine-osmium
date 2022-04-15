@@ -1,4 +1,4 @@
-<div class="card m-2">
+<div id="ratingCard" class="card m-2">
   <div class="card-header">
     <strong>Player Ratings</strong>
     <button type="button" class="btn btn-sm btn-secondary float-right" data-toggle="tooltip" data-placement="left"
@@ -128,7 +128,8 @@
         type: 'POST',
         data: {
           'username': '<%= username %>',
-          'acid': '<%= acid %>'
+          'acid': '<%= acid %>',
+          'voted_desc': '<%= voted.desc %>'
         },
         success: function (data) {
           location.reload();

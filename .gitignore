@@ -4,6 +4,9 @@ node_modules/
 #ignores dev notes
 osmium_dev_notes/
 
+#ignore logs file on the server
+log/combined.txt
+
 #ignore content of team_pic and user_pic
 public/team_pic/
 public/user_pic/
