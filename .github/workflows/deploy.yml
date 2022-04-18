@@ -24,7 +24,8 @@ jobs:
             git commit -a -m 'Commiting linux dependencies'
             git pull origin master
             rm -rf node_modules/
-            npm update
+            npm install
+            npm audit fix
             pm2 start app
             pm2 save
             echo "Deploy to Digital Ocean Droplet successful."

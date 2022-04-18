@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  	<%- include('component/header',{profile: false,  title: name+' ( '+code+' )', description: desc, url:	'/lobby?code='+code}) %>
+
+  <!-- External Files and Plugins -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="css/table.css" />
+  <link rel="stylesheet" href="css/discordInvite.css" />
+
+</head>
+<body>
+  <%- include('component/navbar',{selected: 'lobby'}) %>
+
+  <div class="card m-3">
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="card-title">
+            <span class="">
+              <% if (open == 0) { %>
+              <span class="badge badge-info">Private</span>
+              <% } else { %>
+              <span class="badge badge-info">Public</span>
+              <% } %>
+            </span>
+            <%= name %> <span class="text-muted">( <%= code %> )</span>
+
+            <% if(status == 'WAITING') { %>
+            <span class="badge badge-primary float-right">Waiting</span>
+            <% } else if(status == 'ON-GOING') { %>
+            <span class="badge badge-success float-right">On-Going</span>
+            <% } else { %>
+            <span class="badge badge-secondary float-right">Ended</span>
+            <% } %>
+
+            <span class="badge badge-info float-right mx-1">
+              <%= region %>
+            </span>
+            <%
+          const capitalize = (s) => {
+            if (typeof s !== 'string') return ''
+            return s.charAt(0).toUpperCase() + s.slice(1)
+          }
+          %>
+          
+          </h1>
+          <p class="card-text">
+            <%= desc %>
+          </p>
+          <strong>
+           <% if (game == "tf2") { %>
+           Team Fortress 2
+           <% } else if (game == "brawl") { %>
+           Brawhalla
+           <% } %>
+           -
+           <% if(type == 'pug') { %>
+           PUG Teams
+           <% } else if(type == '1v1') { %>
+           1v1
+           <% } %>
+           </strong>
+           <strong><span class="text-dark float-right"><%= capitalize(skill) %></span></strong>
+
+          <hr>
+          
+          <div class="row">
+          <% if(leader && status == 'WAITING') { %>
+          <form class="form-inline mx-2" action="/readyLobby" method="POST">
+            <input type="hidden" name="lobby_code" value="<%= code %>">
+            <input type="hidden" name="lobby_status" value="ON-GOING">
+            <button type="submit" class="btn btn-success">Start Lobby</button>
+          </form>
+          <% } %>
+
+          <% if(leader && status == 'ON-GOING') { %>
+          <form class="form-inline mx-2" action="/readyLobby" method="POST">
+            <input type="hidden" name="lobby_code" value="<%= code %>">
+            <input type="hidden" name="lobby_status" value="ENDED">
+            <button type="submit" class="btn btn-secondary">End Lobby</button>
+          </form>
+          <% } %>
+
+          <% if((joined && !leader) && (status != 'ON-GOING' && status != 'ENDED')) {%>
+            <form class="form-inline mx-2" action="/leaveLobby" method="POST">
+              <input type="hidden" name="lobby_code" value="<%= code %>">
+              <button type="submit" class="btn btn-danger">Leave Lobby</button>
+            </form>
+          <% } %>
+
+          <% if(leader && (status != 'ON-GOING' && status != 'ENDED')) { %>
+            <form class="form-inline mx-2" action="/closeLobby" method="POST">
+              <input type="hidden" name="lobby_code" value="<%= code %>">
+              <button type="submit" class="btn btn-danger">Close Lobby</button>
+            </form>
+          <% } %>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex row">
+    <div class="col-md-6">
+      <div class="card ml-3 ">
+        <div class="card-body">
+          <form class="form-inline" method="POST" action="/joinLobbyTeam">
+            <h3>Team 1</h3>
+            <%if(logged){ %>
+            <input type="hidden" name="lobby_team_select" value="1">
+            <input type="hidden" name="lobby_code" value="<%= code %>">
+            <%if(viewerTeam == '1' || status == 'ON-GOING' || status == 'ENDED') {%>
+            <button class="btn btn-primary ml-auto" type="submit" disabled>Join Team 1</button>
+            <%}else{%>
+            <button class="btn btn-primary ml-auto" type="submit">Join Team 1</button>
+            <%}%><%}%>
+          </form>
+          <hr>
+          <div class=" d-flex  align-items-stretch justify-content-center flex-column flex-wrap">
+            <% if(team1.length){
+                    for(var i = 0;i < team1.length;i++) { %>
+
+            <a class="text-dark" href="/player?username=<%=team1[i].username%>" style="text-decoration:none">
+              <div class="row rounded m-0 p-2 no-gutters table-hover">
+                <div class="col-1">
+                  <img class="rounded-circle shadow" src="/user_pic/<%= team1[i].pimage %>"
+                    alt="<%= team1[i].username %> profile pic" style="max-width: 48px;">
+                </div>
+                <div class="col-11 pt-2 text-right text-lg-left text-truncate">
+
+                  <span type="button" data-toggle="tooltip" data-placement="top" title="Verified">
+                    ✅
+                  </span>
+
+                  <strong><%= team1[i].sitename %></strong> ( <%= team1[i].username %> )
+
+                  <% if (team1[i].username == lobbyLeader) { %>
+                  <span class="badge badge-pill badge-warning"> Lobby Leader </span>
+                  <% } %>
+
+                  <% if (team1[i].site_privilege == 'DEV') { %>
+                  <span class="badge badge-pill badge-success"> DEV </span>
+                  <% } else if(team1[i].site_privilege == 'VIP') { %>
+                  <span class="badge badge-pill badge-info"> VIP </span>
+                  <% } %>
+
+                  <% if (team1[i].username == authname) { %>
+                  <span class="badge badge-pill badge-primary"> YOU </span>
+                  <% } %>
+
+                  
+
+                  <p class="text-muted"><%= team1[i].status_text %></p>
+
+                </div>
+              </div>
+            </a>
+
+            <% }}else{ %>
+            <p>No records available.</p>
+            <% } %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mr-3 ">
+        <div class="card-body ">
+          <form class="form-inline" method="POST" action="/joinLobbyTeam">
+            <h3>Team 2</h3>
+            <%if(logged){ %>
+            <input type="hidden" name="lobby_team_select" value="2">
+            <input type="hidden" name="lobby_code" value="<%= code %>">
+            <%if(viewerTeam == '2' || status == 'ON-GOING' || status == 'ENDED') {%>
+              <button class="btn btn-primary ml-auto" type="submit" disabled>Join Team 2</button>
+            <%}else{%>
+              <button class="btn btn-primary ml-auto" type="submit">Join Team 2</button>
+            <%}%><%}%>
+          </form>
+          <hr>
+           <div class=" d-flex align-items-stretch justify-content-center flex-column flex-wrap">
+             <% if(team2.length){
+                    for(var i = 0;i < team2.length;i++) { %>
+
+             <a class="text-dark" href="/player?username=<%=team2[i].username%>" style="text-decoration:none">
+               <div class="row rounded m-0 p-2 no-gutters table-hover">
+                 <div class="col-1">
+                   <img class="rounded-circle shadow" src="/user_pic/<%= team2[i].pimage %>"
+                     alt="<%= team2[i].username %> profile pic" style="max-width: 48px;">
+                 </div>
+                 <div class="col-11 pt-2 text-right text-lg-left text-truncate">
+
+                   <span type="button" data-toggle="tooltip" data-placement="top" title="Verified">
+                     ✅
+                   </span>
+
+                   <strong><%= team2[i].sitename %></strong> ( <%= team2[i].username %> )
+
+                   <% if (team2[i].username == lobbyLeader) { %>
+                   <span class="badge badge-pill badge-warning"> Lobby Leader </span>
+                   <% } %>
+
+                   <% if (team2[i].site_privilege == 'DEV') { %>
+                   <span class="badge badge-pill badge-success"> DEV </span>
+                   <% } else if(team2[i].site_privilege == 'VIP') { %>
+                   <span class="badge badge-pill badge-info"> VIP </span>
+                   <% } %>
+
+                   <% if (team2[i].username == authname) { %>
+                   <span class="badge badge-pill badge-primary"> YOU </span>
+                   <% } %>
+
+                   <p class="text-muted"><%= team2[i].status_text %></p>
+
+                 </div>
+               </div>
+             </a>
+
+             <% }}else{ %>
+             <p>No records available.</p>
+             <% } %>
+
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('component/qixLobby',{}) %>
+
+  <!-- Visual Scripts -->
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
+  </script>
+  <script src="https://kit.fontawesome.com/c7e18d8ebc.js" crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  <script src="js/discordInvite.js"></script>
+  <script>
+    discordInvite.init({
+      inviteCode: '24NaTKpqeH',
+      title: 'Qixalite Lobbies',
+    });
+    discordInvite.render();
+  </script>
+</body>
+</html>

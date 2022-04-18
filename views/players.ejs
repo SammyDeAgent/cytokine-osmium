@@ -48,10 +48,10 @@
 								alt="<%= data[i].username %> profile pic" style="max-width: 64px;">
 						</div>
 						<div class="col-11 pt-2 text-right text-lg-left text-truncate">
-							<% if(data[i].verify_status === 'VERIFIED') {%>
-							<i class="fas fa-check-square" style="color:goldenrod" data-toggle="tooltip" data-placement="top"
-								title="Verified">
-							</i>
+							<% if(data[i].verify_status === 'VERIFIED') { %>
+							<span type="button" data-toggle="tooltip" data-placement="top" title="Verified">
+								✅
+							</span>
 							<%}%>
 							<strong><%= data[i].sitename %></strong> ( <%= data[i].username %> )
 

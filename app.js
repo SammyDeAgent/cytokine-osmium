@@ -12,6 +12,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const favicon = require('serve-favicon');
 const path = require('path');
 const slashes = require("connect-slashes"); //Eliminates trailing slashs
+const cron = require('node-cron');
 
 require('dotenv').config();
 
@@ -75,6 +76,7 @@ var patch						= require('./routes/patch');
 
 var exspell					= require('./routes/test/spells');
 var ajaxtest 				= require('./routes/test/ajaxtest');
+const { connect } = require('http2');
 
 app.use(express.static('public'));
 
@@ -83,6 +85,12 @@ app.use(slashes(false));
 // View engine setup
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+// Robots Page
+app.get('/robots.txt', function(req, res) {
+	res.sendFile(path.join(__dirname, 'robots.txt'));
+	logger.info(`${req.ip} is requesting the robots.txt page.`);
+});
 
 // Home page
 app.get('/', index.list);
@@ -153,6 +161,26 @@ app.post('/changeTtext', changeTtext.auth);
 
 // Lobby list and searching
 app.get('/lobbies', lobbies.list);
+app.get('/lobby', lobbies.profile);
+
+// Lobby Team join and leave + Disband
+app.post('/joinLobbyTeam', lobbies.joinTeam);
+app.post('/leaveLobby', lobbies.leaving);
+app.post('/closeLobby', lobbies.close);
+
+// Lobby Deletion
+cron.schedule('* * * * *', function() {
+	const conn = mysql.createConnection(dbOptions);
+	
+	conn.query('SELECT * FROM lobbies', function(err, data){
+		if (err) logger.error(new Error(err));
+		lobbies.delete(conn, data);
+	});
+});
+
+// Lobby creation + Starting
+app.post('/createLobby', lobbies.create);
+app.post('/readyLobby', lobbies.readyLobby);
 
 // Patch and Updates
 app.get('/patch', patch.list);

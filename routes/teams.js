@@ -228,7 +228,7 @@ exports.profile = function (req, res) {
 						});
 				} else {
 					logger.error('404: ' + req.url + ' - ' + req.ip);
-					return res.sendFile(path.join(__dirname, "../..", 'www/error/404.html'));
+					return res.sendFile(path.join(__dirname, "..", 'www/error/404.html'));
 				}
 			})
 	})

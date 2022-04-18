@@ -262,11 +262,10 @@
 										alt="<%= teammates[i].username %> profile pic" style="max-width: 64px;">
 								</div>
 								<div class="col-11 pt-2 text-right text-lg-left text-truncate">
-						
-								<i class="fas fa-check-square" style="color:goldenrod"
-								data-toggle="tooltip"
-        						data-placement="top" title="Verified">
-								</i>
+
+									<span type="button" data-toggle="tooltip" data-placement="top" title="Verified">
+										✅
+									</span>
 
 									<strong><%= teammates[i].sitename %></strong> ( <%= teammates[i].username %> )
 
@@ -290,10 +289,10 @@
 							</div>
 						</a>
 
-						<% }
-                }else{ %>
-						<p>No records available.</p>
+						<% }}else{ %>
+							<p>No records available.</p>
 						<% } %>
+
 					</div>
 				</div>
 				</div>

@@ -1,0 +1,11 @@
+# robots.txt file for Cytokine Osmium
+# Please follow Asimov's Law of Robotics
+
+User-agent: Mediapartners-Google*
+Disallow:
+
+User-agent: *
+Disallow: /register
+Disallow: /login
+
+Sitemap:
