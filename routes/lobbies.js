@@ -263,7 +263,7 @@ exports.delete = function(connection, data){
     var timeA = moment(data[0].lobby_cTime);
     var timeB = moment(Date.now());
     var diff = timeB.diff(timeA, 'minutes');
-    if(diff >= 60 && data[i].lobby_status == "ENDED"){
+    if(diff >= 10 && data[i].lobby_status == "ENDED"){
       logger.debug('Deleting Lobby: ' + data[i].lobby_code);
       connection.query('UPDATE account_compliments SET lobby_complete = lobby_complete + 1 WHERE id IN (SELECT id FROM lobbies_team WHERE lobby_code = ?)',
       [data[i].lobby_code], function(err, row, fields){

@@ -169,9 +169,8 @@ app.post('/leaveLobby', lobbies.leaving);
 app.post('/closeLobby', lobbies.close);
 
 // Lobby Deletion
+const conn = mysql.createConnection(dbOptions);
 cron.schedule('* * * * *', function() {
-	const conn = mysql.createConnection(dbOptions);
-	
 	conn.query('SELECT * FROM lobbies', function(err, data){
 		if (err) logger.error(new Error(err));
 		lobbies.delete(conn, data);
