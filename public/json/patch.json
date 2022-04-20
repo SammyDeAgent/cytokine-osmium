@@ -1,6 +1,45 @@
 {
-  "live_version": "b-1.4.0",
+  "live_version": "b-1.4.2",
   "notes": [
+    {
+      "version": "b-1.4.2",
+      "date": "20th April 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [],
+        "updates": [
+          "Fixed Registration function via using OAuth2 method."
+        ],
+        "upcoming": [
+          "Pagination for optimization.",
+          "Additional team controls eg. Kicks and Invites for teams and lobbies.",
+          "Tournament creation."
+        ],
+        "issues": [          
+          "Lobby Searching and filtering is still under development.",
+          "Private Lobby is not yet working as intended."
+        ]
+      }
+    },
+    {
+      "version": "b-1.4.1",
+      "date": "20th April 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [],
+        "updates": ["Optimized Database Proccessing pathway and connections."],
+        "upcoming": [
+          "Pagination for optimization.",
+          "Additional team controls eg. Kicks and Invites for teams and lobbies.",
+          "Tournament creation."
+        ],
+        "issues": [
+          "Registration email - verification code is currently not working as of Google OAuth Terms Update.",
+          "Lobby Searching and filtering is still under development.",
+          "Private Lobby is not yet working as intended."
+        ]
+      }
+    },
     {
       "version": "b-1.4.0",
       "date": "19th April 2022",
@@ -10,9 +49,7 @@
           "Custom lobby creation and associated functionalities.",
           "New schedule cron job for deleting ended lobbies"
         ],
-        "updates": [
-          "Updated structure for robots and crawlers."
-        ],
+        "updates": ["Updated structure for robots and crawlers."],
         "upcoming": [
           "Pagination for optimization",
           "Additional team controls eg. Kicks and Invites for teams and lobbies",

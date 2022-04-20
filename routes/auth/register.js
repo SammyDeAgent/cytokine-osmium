@@ -4,6 +4,10 @@ const {
 	v4: uuidv4
 } = require('uuid');
 const nodemailer = require('nodemailer');
+const {
+	google
+} = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 require('dotenv').config();
 
 // Logger Module
@@ -16,17 +20,45 @@ exports.auth = async function (req, res) {
 	// Nodemailer testing
 	let testMail = await nodemailer.createTestAccount();
 
-	// SMTP Transport
-	let transporter = nodemailer.createTransport({
-		service: 'gmail',
-		auth: {
-			user: process.env.EMAIL_ID,
-			pass: process.env.PASSWORD
-		},
-		tls: {
-			rejectUnauthorized: false
-		}
-	});
+	// SMTP Transport Creating via OAuth2
+	const createTransporter = async () => {
+		const oauth2Client = new OAuth2(
+			process.env.CLIENT_ID,
+			process.env.CLIENT_SECRET,
+			"https://developers.google.com/oauthplayground"
+		);
+
+		oauth2Client.setCredentials({
+			refresh_token: process.env.REFRESH_TOKEN
+		});
+
+		const accessToken = await new Promise((resolve, reject) => {
+			oauth2Client.getAccessToken((err, token) => {
+				if (err) {
+					reject("Failed to create access token :(");
+				}
+				resolve(token);
+			});
+		});
+
+		const transporter = nodemailer.createTransport({
+			host: "smtp.gmail.com",
+			secure: true,
+			auth: {
+				type: "OAuth2",
+				user: process.env.EMAIL_ID,
+				accessToken,
+				clientId: process.env.CLIENT_ID,
+				clientSecret: process.env.CLIENT_SECRET,
+				refreshToken: process.env.REFRESH_TOKEN
+			},
+			tls: {
+				rejectUnauthorized: false
+			}
+		});
+
+		return transporter;
+	};
 
 	var accid = uuidv4();
 	var username = req.body.r_username;
@@ -36,13 +68,6 @@ exports.auth = async function (req, res) {
 	var password = req.body.r_password;
 
 	var verify_code = codeGen();
-
-	var mailOptions = {
-		from: '"Cytokine Osmium" <cytokine.osmium.mailer@gmail.com>',
-		to: email,
-		subject: 'Verification Code',
-		text: 'Thank you for registrating for Osmium Beta! Your verification code is: ' + verify_code
-	};
 
 	// Insert phase 2 verification here
 
@@ -57,6 +82,19 @@ exports.auth = async function (req, res) {
 	let stamp = date + "/" + month + "/" + year;
 
 	const encryptedPassword = await bcrypt.hash(password, saltRounds);
+
+	// Setting up mail options parameters
+	var mailOptions = {
+		from: '"Cytokine Osmium" <cytokine.osmium.mailer@gmail.com>',
+		to: email,
+		subject: 'Verification Code',
+		text: 'Thank you for registrating for Osmium Beta! Your verification code is: ' + verify_code
+	};
+
+	const sendEmail = async (params) => {
+		let emailTransporter = await createTransporter();
+		await emailTransporter.sendMail(params);
+	};
 
 	if (username && email && password) {
 		req.getConnection(function (err, connection) {
@@ -110,16 +148,37 @@ exports.auth = async function (req, res) {
 
 													// Email verifier sender
 													logger.info('Sending verification email to ' + email);
-													try {
-														await transporter.sendMail(mailOptions);
+													try{
+														await sendEmail(mailOptions);
 														logger.info('Verification email sent to ' + email);
-													} catch (error) {
+														// Redirection to login menu or auto-login
+														logger.info(`${req.ip} has successfully registered.`);
+														return res.redirect("/login");
+													}catch(err){
 														logger.error(new Error(err));
+														// Delete registered info
+														connection.query('DELETE FROM accounts WHERE id = ?;', [accid], function(err, data, fields) {
+															if(err) logger.error(new Error(err));
+															logger.warn(`${req.ip} Registration failed - falling back.`);
+															return res.send('Registration failed, please try again later.');
+														});
 													}
-
-													// Redirection to login menu or auto-login
-													logger.info(`${req.ip} has successfully registered.`);
-													res.redirect("/login");
+													// await transporter.sendMail(mailOptions, function(err, info) {
+													// 	if (err) {
+													// 		logger.error(new Error(err));
+													// 		// Delete registered info
+													// 		connection.query('DELETE FROM accounts WHERE id = ?;', [accid], function(err, data, fields) {
+													// 			if(err) logger.error(new Error(err));
+													// 			logger.warn(`${req.ip} Registration failed - falling back.`);
+													// 			return res.send('Registration failed, please try again later.');
+													// 		});
+													// 	}	else {
+													// 		logger.info('Verification email sent to ' + email);
+													// 		// Redirection to login menu or auto-login
+													// 		logger.info(`${req.ip} has successfully registered.`);
+													// 		return res.redirect("/login");
+													// 	}
+													// });											
 												})
 											})
 									})
