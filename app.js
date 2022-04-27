@@ -66,6 +66,7 @@ var changeTtext			= require('./routes/auth/changeTtext');
 var teams						= require('./routes/teams');
 var players					= require('./routes/players');
 var lobbies					= require('./routes/lobbies');
+var tourns					= require('./routes/tourns');
 
 var index						= require('./routes/index');
 var profile					= require('./routes/profile');
@@ -180,6 +181,30 @@ cron.schedule('* * * * *', function() {
 // Lobby creation + Starting
 app.post('/createLobby', lobbies.create);
 app.post('/readyLobby', lobbies.readyLobby);
+
+// Tourns List and searching
+app.get('/tournaments', tourns.list);
+app.get('/tournament', tourns.profile);
+
+// Tourn join and leave + Disband
+app.post('/joinTourn', tourns.join);
+app.post('/leaveTourn', tourns.leaving);
+app.post('/closeTourn', tourns.close);
+
+// Tourn Deletion
+const conn2 = mysql.createConnection(dbOptions);
+cron.schedule('* * * * *', function () {
+	conn2.query('SELECT * FROM tournaments', function (err, data) {
+		if (err) logger.error(new Error(err));
+		tourns.delete(conn, data);
+	});
+});
+
+// Tourn creation + starting
+app.post('/createTourn', tourns.create);
+app.post('/startTourn', tourns.start);
+app.post('/endTourn', tourns.end);
+app.post('/advance',tourns.advance);
 
 // Patch and Updates
 app.get('/patch', patch.list);

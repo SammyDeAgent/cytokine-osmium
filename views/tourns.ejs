@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('component/header',{profile: false, title: 'Tournament List', description: 'Climb the ladder, and claim the title of champion!', url: '/tournaments'}) %>
+
+  <!-- External Files and Plugins -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/table.css" />
+  <link rel="stylesheet" href="css/discordInvite.css" />
+</head>
+
+<body>
+
+  <%- include('component/navbar',{selected: 'tournament'}) %>
+
+  <% if(!logged){ %>
+  <div class="alert alert-warning m-3" role="alert">
+    <strong>Attention!</strong> You need to be logged in to create or join a tournament.
+  </div>
+  <% }else{ %>
+  <div class="card m-3">
+    <div class="card-body">
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCreateTourn">
+        Create Tournament
+      </button>
+    </div>
+  </div>
+
+  <div class="modal text-dark" id="modalCreateTourn" tabindex="-1" role="dialog" aria-labelledby="modalCreateTourn"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCreateTournLabel">Create Tournament</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="tournCreateForm" action="/createTourn" method="POST">
+            <div class="form-group">
+              Tournament Name
+              <input class="form-control" type="text" name="tournament_name" placeholder="ESEA Asia Cup" required />
+            </div>
+            <div class="form-group">
+              Tournament Description
+              <input class="form-control" type="text" name="tournament_desc" placeholder="TF2 6s Competitive Ladder"
+                required />
+            </div>
+            <div class="form-group">
+              <select class="custom-select" name="tournament_region" required>
+                <option value="">Select a Region</option>
+                <option value="OCE">Oceania</option>
+                <option value="SEA">South East Asia</option>
+                <option value="CA">Central Asia</option>
+                <option value="EA">East Asia</option>
+                <option value="SAS">South Asia</option>
+                <option value="WA">West Asia</option>
+                <option value="EU">Europe</option>
+                <option value="AFR">Africa</option>
+                <option value="NA">North America</option>
+                <option value="SA">South America</option>
+                <option value="RU">Russia</option>
+              </select>
+              <div class="form-inline my-2">
+                <select id="gameSelect" class="custom-select" name="tournament_game" required>
+                  <option value="">Select a Game Title</option>
+                  <option value="tf2">Team Fortress 2</option>
+                  <option value="brawl">Brawhalla</option>
+                </select>
+                <select class="custom-select ml-auto" name="tournament_type" required>
+                  <option value="">Select a Game Mode</option>
+                  <option value="pug">PUG Teams</option>
+                  <option value="1v1">1v1</option>
+                </select>
+              </div>
+              <select id="gameSkill" class="custom-select my-2" name="tournament_skill">
+              </select>
+              <div class="custom-control custom-switch my-2">
+                <input type="checkbox" form="TournCreateForm" class="custom-control-input" id="openSwitch"
+                  name="tournament_open">
+                <label class="custom-control-label" for="openSwitch">Enable Private Tournament</label>
+              </div>
+              <input type="hidden" name="tournament_leader" value="<%= acid %>" />
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" form="tournCreateForm" type="submit">Create</button>
+          <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% } %>
+
+  <div class="card m-3">
+    <div class="card-body">
+
+      <div class="d-flex flex-row flex-wrap">
+        <h2 class="mr-auto">Tournaments List</h2>
+        <form class="form-inline" action="/tournSearch" method="GET">
+          <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search Team" disabled>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" disabled>Search</button>
+        </form>
+      </div>
+
+      <hr class="bg-muted"">
+
+				<% if(search) { %>
+					<div class=" d-flex flex-row alert alert-success mb-1">
+      <div class="mr-auto">
+        Searching for keyword: "<strong><%= query %></strong>"
+      </div>
+      <button class="btn btn-outline-secondary btn-sm" onclick="window.location.href='/lobbies'">Clear</button>
+    </div>
+    <% } %>
+
+    <div>
+      <% if(data.length){ %>
+      <% for(var i = 0; i < data.length; i++) { %>
+      <div class="card">
+        <a class="text-dark" href="/tournament?code=<%= data[i].tournament_code %>" style="text-decoration:none">
+          <div class="row rounded m-0 p-2 no-gutters table-hover">
+            <div class="col-12 pt-2 text-right text-lg-left text-truncate">
+              <span class="">
+                <% if (data[i].tournament_open == 0) { %>
+                <span class="badge badge-info">Private</span>
+                <% } else { %>
+                <span class="badge badge-info">Public</span>
+                <% } %>
+              </span>
+
+              <strong><%= data[i].tournament_name %></strong> ( <%= data[i].tournament_code %> ) -
+
+              <% if (data[i].tournament_game == "tf2") { %>
+              Team Fortress 2
+              <% } else if (data[i].tournament_game == "brawl") { %>
+              Brawhalla
+              <% } %>
+              -
+              <% if(data[i].tournament_type == 'pug') { %>
+              PUG Teams
+              <% } else if(data[i].tournament_type == '1v1') { %>
+              1v1
+              <% } %>
+
+              <% if(data[i].tournament_status == 'WAITING') { %>
+              <span class="badge badge-primary float-right">Waiting</span>
+              <% } else if(data[i].tournament_status == 'ON-GOING') { %>
+              <span class="badge badge-success float-right">On-Going</span>
+              <% } else { %>
+              <span class="badge badge-secondary float-right">Ended</span>
+              <% } %>
+
+
+              <span class="badge badge-info float-right mx-1">
+                <%= data[i].tournament_region %>
+              </span>
+              <%
+          const capitalize = (s) => {
+            if (typeof s !== 'string') return ''
+            return s.charAt(0).toUpperCase() + s.slice(1)
+          }
+          %>
+              <p class="text-muted"><%= data[i].tournament_desc %> <span
+                  class="text-dark float-right"><%= capitalize(data[i].tournament_skill) %></span></p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% }} else { %>
+      <p>No records available.</p>
+      <% } %>
+    </div>
+
+    <!-- <%- include('component/footer',{}) %> -->
+
+    <!-- Visual Scripts -->
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+      integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
+    </script>
+    <script src="https://kit.fontawesome.com/c7e18d8ebc.js" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function () {
+        $('#gameSkill').hide();
+        $('#gameSelect').change(function () {
+          if ($(this).val() == 'tf2') {
+            $('#gameSkill').html(
+              '<option value="">Select a Skill Level (Optional)</option>' +
+              '<option value="open">Open</option>' +
+              '<option value="intermmediate">Intermediate</option>' +
+              '<option value="advanced">Advanced</option>' +
+              '<option value="prem">Prem</option>'
+            ).show();
+          } else if ($(this).val() == 'brawl') {
+            $('#gameSkill').html(
+              '<option value="">Select a Skill Level (Optional)</option>' +
+              '<option value="tin">Tin</option>' +
+              '<option value="silver">Silver</option>' +
+              '<option value="gold">Gold</option>' +
+              '<option value="platinum">Platinum</option>' +
+              '<option value="diamond">Diamond</option>'
+            ).show();
+          } else {
+            $('#gameSkill').hide();
+          }
+        });
+      });
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+
+</body>
+
+</html>
