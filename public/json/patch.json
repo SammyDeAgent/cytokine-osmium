@@ -1,14 +1,33 @@
 {
-  "live_version": "b-1.5.0",
+  "live_version": "b-1.5.1",
   "notes": [
+    {
+      "version": "b-1.5.1",
+      "date": "28th April 2022",
+      "author": "Sammy",
+      "patch": {
+        "addition": [],
+        "updates": [
+          "Fixed an issue where 0-0 matchpoint in tournament would randomly pick a winner"
+        ],
+        "upcoming": [
+          "Pagination for optimization.",
+          "Additional team controls eg. Kicks and Invites for teams, lobbies and tournaments."
+        ],
+        "issues": [
+          "Lobby and Tournament Searching and filtering is still under development.",
+          "Private Lobby and Tournament are not yet working as intended.",
+          "Tournament mode only allows individual participation for now.",
+          "Tournament mode is not yet working as intended."
+        ]
+      }
+    },
     {
       "version": "b-1.5.0",
       "date": "27th April 2022",
       "author": "Sammy",
       "patch": {
-        "addition": [
-          "Tournament Creation and Participation"
-        ],
+        "addition": ["Tournament Creation and Participation"],
         "updates": [],
         "upcoming": [
           "Pagination for optimization.",

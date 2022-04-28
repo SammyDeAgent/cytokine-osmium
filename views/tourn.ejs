@@ -130,9 +130,10 @@
                     <% } %>
                   </div>
                 <ul class="list-group m-1">
-                  <% var climbed = (tree[i][0].matchpoint > tree[i][1].matchpoint) ? 0 : 1%>
+                  <% var climbed = (tree[i][0].matchpoint > tree[i][1].matchpoint) ? 0 : 1; %>
+                  <% var nullpoint = (tree[i][0].matchpoint == tree[i][1].matchpoint) ? 1 : 0; %>
                   <% for(let x in tree[i]){ %> 
-                    <% if(x== climbed) {%>
+                    <% if(x== climbed && !nullpoint) {%>
                     <li class="list-group-item list-group-item-success">
                       
                     <% }else{ %>
